@@ -9,28 +9,50 @@ from dotenv import load_dotenv
 # Load Environment Variables
 load_dotenv()
 
-# Railway MySQL Public URL
-MYSQL_URL = os.getenv("MYSQL_PUBLIC_URL")
+# =========================
+# DATABASE CONFIGURATION
+# =========================
+MYSQL_URL = os.getenv("MYSQL_PUBLIC_URL", "")
 
-# Parse MySQL URL
-parsed_url = urlparse(MYSQL_URL)
+if isinstance(MYSQL_URL, bytes):
+    MYSQL_URL = MYSQL_URL.decode("utf-8")
 
-# Database Configuration
-DB_CONFIG = {
-    "host": parsed_url.hostname,
-    "user": parsed_url.username,
-    "password": parsed_url.password,
-    "database": parsed_url.path.lstrip("/"),
-    "port": parsed_url.port,
-}
+if MYSQL_URL:
+
+    parsed_url = urlparse(str(MYSQL_URL))
+
+    DB_CONFIG = {
+        "host": parsed_url.hostname,
+        "user": parsed_url.username,
+        "password": parsed_url.password,
+        "database": parsed_url.path.replace("/", ""),
+        "port": parsed_url.port,
+    }
+
+else:
+
+    DB_CONFIG = {
+        "host": os.getenv("MYSQLHOST", "localhost"),
+        "user": os.getenv("MYSQLUSER", "root"),
+        "password": os.getenv("MYSQLPASSWORD", ""),
+        "database": os.getenv("MYSQLDATABASE", "expense_tracker"),
+        "port": int(os.getenv("MYSQLPORT", 3306)),
+    }
 
 
-# Create MySQL Connection
+# =========================
+# MYSQL CONNECTION
+# =========================
+
 def get_connection():
+
     return mysql.connector.connect(**DB_CONFIG)
 
 
-# Context Manager for Cursor Handling
+# =========================
+# MYSQL CURSOR MANAGER
+# =========================
+
 @contextmanager
 def mysql_cursor(dictionary=False):
 
@@ -40,26 +62,38 @@ def mysql_cursor(dictionary=False):
 
     try:
         yield cursor
+
         connection.commit()
 
     finally:
         cursor.close()
+
         connection.close()
 
 
-# Check MySQL Availability
+# =========================
+# MYSQL AVAILABILITY
+# =========================
+
 def mysql_available():
 
     try:
+
         with get_connection() as connection:
+
             return connection.is_connected()
 
     except mysql.connector.Error as e:
+
         print("MySQL Connection Error:", e)
+
         return False
 
 
-# Initialize Database Tables
+# =========================
+# INITIALIZE DATABASE
+# =========================
+
 def initialize_database():
 
     with mysql_cursor() as cursor:
@@ -163,7 +197,10 @@ def initialize_database():
         )
 
 
-# Find User By Email
+# =========================
+# USER FUNCTIONS
+# =========================
+
 def find_user_by_email(email):
 
     with mysql_cursor(dictionary=True) as cursor:
@@ -176,7 +213,6 @@ def find_user_by_email(email):
         return cursor.fetchone()
 
 
-# Find User By Google Sub
 def find_user_by_google_sub(google_sub):
 
     with mysql_cursor(dictionary=True) as cursor:
@@ -189,7 +225,6 @@ def find_user_by_google_sub(google_sub):
         return cursor.fetchone()
 
 
-# Fetch All Users
 def fetch_users():
 
     with mysql_cursor(dictionary=True) as cursor:
@@ -210,7 +245,10 @@ def fetch_users():
         return cursor.fetchall()
 
 
-# Check If Alert Already Sent
+# =========================
+# ALERT FUNCTIONS
+# =========================
+
 def alert_already_sent(user_id, alert_month):
 
     with mysql_cursor(dictionary=True) as cursor:
@@ -230,7 +268,6 @@ def alert_already_sent(user_id, alert_month):
         return cursor.fetchone() is not None
 
 
-# Record Alert
 def record_alert_sent(
     user_id,
     alert_month,
@@ -261,7 +298,10 @@ def record_alert_sent(
         )
 
 
-# Create Local User
+# =========================
+# USER CREATION
+# =========================
+
 def create_user(username, email, hashed_password):
 
     with mysql_cursor() as cursor:
@@ -286,7 +326,6 @@ def create_user(username, email, hashed_password):
         )
 
 
-# Create Google User
 def create_google_user(username, email, google_sub):
 
     with mysql_cursor() as cursor:
@@ -312,7 +351,6 @@ def create_google_user(username, email, google_sub):
         )
 
 
-# Link Google Account
 def link_google_to_existing_user(user_id, google_sub):
 
     with mysql_cursor() as cursor:
@@ -333,7 +371,10 @@ def link_google_to_existing_user(user_id, google_sub):
         )
 
 
-# Add Expense
+# =========================
+# EXPENSE FUNCTIONS
+# =========================
+
 def add_expense(
     user_id,
     amount,
@@ -370,89 +411,6 @@ def add_expense(
         )
 
 
-# Insert Or Update Budget
-def upsert_budget(
-    user_id,
-    monthly_budget,
-    month_start
-):
-
-    with mysql_cursor() as cursor:
-
-        cursor.execute(
-            """
-            INSERT INTO budgets
-            (
-                user_id,
-                monthly_budget,
-                month_start
-            )
-
-            VALUES(%s, %s, %s)
-
-            ON DUPLICATE KEY UPDATE
-
-            monthly_budget = VALUES(monthly_budget)
-            """,
-            (
-                user_id,
-                monthly_budget,
-                month_start,
-            ),
-        )
-
-
-# Fetch Budget
-def fetch_budget(user_id, month_start):
-
-    with mysql_cursor(dictionary=True) as cursor:
-
-        cursor.execute(
-            """
-            SELECT *
-
-            FROM budgets
-
-            WHERE user_id = %s
-            AND month_start = %s
-            """,
-            (
-                user_id,
-                month_start,
-            ),
-        )
-
-        return cursor.fetchone()
-
-
-# Fetch All Budgets
-def fetch_budgets(user_id):
-
-    with mysql_cursor(dictionary=True) as cursor:
-
-        cursor.execute(
-            """
-            SELECT
-
-                id AS Budget_ID,
-
-                monthly_budget AS Monthly_Budget,
-
-                month_start AS Month_Start
-
-            FROM budgets
-
-            WHERE user_id = %s
-
-            ORDER BY month_start DESC
-            """,
-            (user_id,),
-        )
-
-        return pd.DataFrame(cursor.fetchall())
-
-
-# Fetch Expenses
 def fetch_expenses(user_id=None):
 
     query = """
@@ -488,5 +446,88 @@ def fetch_expenses(user_id=None):
     with mysql_cursor(dictionary=True) as cursor:
 
         cursor.execute(query, params)
+
+        return pd.DataFrame(cursor.fetchall())
+
+
+# =========================
+# BUDGET FUNCTIONS
+# =========================
+
+def upsert_budget(
+    user_id,
+    monthly_budget,
+    month_start
+):
+
+    with mysql_cursor() as cursor:
+
+        cursor.execute(
+            """
+            INSERT INTO budgets
+            (
+                user_id,
+                monthly_budget,
+                month_start
+            )
+
+            VALUES(%s, %s, %s)
+
+            ON DUPLICATE KEY UPDATE
+
+            monthly_budget = VALUES(monthly_budget)
+            """,
+            (
+                user_id,
+                monthly_budget,
+                month_start,
+            ),
+        )
+
+
+def fetch_budget(user_id, month_start):
+
+    with mysql_cursor(dictionary=True) as cursor:
+
+        cursor.execute(
+            """
+            SELECT *
+
+            FROM budgets
+
+            WHERE user_id = %s
+            AND month_start = %s
+            """,
+            (
+                user_id,
+                month_start,
+            ),
+        )
+
+        return cursor.fetchone()
+
+
+def fetch_budgets(user_id):
+
+    with mysql_cursor(dictionary=True) as cursor:
+
+        cursor.execute(
+            """
+            SELECT
+
+                id AS Budget_ID,
+
+                monthly_budget AS Monthly_Budget,
+
+                month_start AS Month_Start
+
+            FROM budgets
+
+            WHERE user_id = %s
+
+            ORDER BY month_start DESC
+            """,
+            (user_id,),
+        )
 
         return pd.DataFrame(cursor.fetchall())
