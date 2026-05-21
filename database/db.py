@@ -45,11 +45,22 @@ def initialize_database():
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(100) NOT NULL,
                 email VARCHAR(255) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
+                password VARCHAR(255),
+                auth_provider VARCHAR(50) DEFAULT 'local',
+                google_sub VARCHAR(255) UNIQUE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
             """
         )
+        cursor.execute("SHOW COLUMNS FROM users LIKE 'auth_provider'")
+        if cursor.fetchone() is None:
+            cursor.execute(
+                "ALTER TABLE users ADD COLUMN auth_provider VARCHAR(50) DEFAULT 'local'"
+            )
+        cursor.execute("SHOW COLUMNS FROM users LIKE 'google_sub'")
+        if cursor.fetchone() is None:
+            cursor.execute("ALTER TABLE users ADD COLUMN google_sub VARCHAR(255) UNIQUE")
+        cursor.execute("ALTER TABLE users MODIFY password VARCHAR(255) NULL")
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS expenses (
@@ -82,6 +93,29 @@ def initialize_database():
             )
             """
         )
+        cursor.execute("SHOW COLUMNS FROM budgets LIKE 'month_start'")
+        if cursor.fetchone() is None:
+            cursor.execute(
+                "ALTER TABLE budgets ADD COLUMN month_start DATE NOT NULL DEFAULT '2000-01-01'"
+            )
+        cursor.execute("SHOW COLUMNS FROM budgets LIKE 'monthly_budget'")
+        if cursor.fetchone() is None:
+            cursor.execute(
+                "ALTER TABLE budgets ADD COLUMN monthly_budget DECIMAL(10, 2) NOT NULL DEFAULT 0"
+            )
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM information_schema.statistics
+            WHERE table_schema = DATABASE()
+              AND table_name = 'budgets'
+              AND index_name = 'unique_user_month'
+            """
+        )
+        if cursor.fetchone()[0] == 0:
+            cursor.execute(
+                "ALTER TABLE budgets ADD UNIQUE KEY unique_user_month (user_id, month_start)"
+            )
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS email_alerts (
@@ -101,6 +135,12 @@ def initialize_database():
 def find_user_by_email(email):
     with mysql_cursor(dictionary=True) as cursor:
         cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        return cursor.fetchone()
+
+
+def find_user_by_google_sub(google_sub):
+    with mysql_cursor(dictionary=True) as cursor:
+        cursor.execute("SELECT * FROM users WHERE google_sub = %s", (google_sub,))
         return cursor.fetchone()
 
 
@@ -133,8 +173,34 @@ def record_alert_sent(user_id, alert_month, previous_amount, current_amount):
 def create_user(username, email, hashed_password):
     with mysql_cursor() as cursor:
         cursor.execute(
-            "INSERT INTO users(username, email, password) VALUES(%s, %s, %s)",
+            """
+            INSERT INTO users(username, email, password, auth_provider)
+            VALUES(%s, %s, %s, 'local')
+            """,
             (username, email, hashed_password),
+        )
+
+
+def create_google_user(username, email, google_sub):
+    with mysql_cursor() as cursor:
+        cursor.execute(
+            """
+            INSERT INTO users(username, email, password, auth_provider, google_sub)
+            VALUES(%s, %s, NULL, 'google', %s)
+            """,
+            (username, email, google_sub),
+        )
+
+
+def link_google_to_existing_user(user_id, google_sub):
+    with mysql_cursor() as cursor:
+        cursor.execute(
+            """
+            UPDATE users
+            SET google_sub = %s
+            WHERE id = %s AND google_sub IS NULL
+            """,
+            (google_sub, user_id),
         )
 
 
@@ -147,6 +213,45 @@ def add_expense(user_id, amount, category, description, expense_date, payment_mo
             """,
             (user_id, amount, category, description, expense_date, payment_mode),
         )
+
+
+def upsert_budget(user_id, monthly_budget, month_start):
+    with mysql_cursor() as cursor:
+        cursor.execute(
+            """
+            INSERT INTO budgets(user_id, monthly_budget, month_start)
+            VALUES(%s, %s, %s)
+            ON DUPLICATE KEY UPDATE monthly_budget = VALUES(monthly_budget)
+            """,
+            (user_id, monthly_budget, month_start),
+        )
+
+
+def fetch_budget(user_id, month_start):
+    with mysql_cursor(dictionary=True) as cursor:
+        cursor.execute(
+            """
+            SELECT id, user_id, monthly_budget, month_start
+            FROM budgets
+            WHERE user_id = %s AND month_start = %s
+            """,
+            (user_id, month_start),
+        )
+        return cursor.fetchone()
+
+
+def fetch_budgets(user_id):
+    with mysql_cursor(dictionary=True) as cursor:
+        cursor.execute(
+            """
+            SELECT id AS Budget_ID, monthly_budget AS Monthly_Budget, month_start AS Month_Start
+            FROM budgets
+            WHERE user_id = %s
+            ORDER BY month_start DESC
+            """,
+            (user_id,),
+        )
+        return pd.DataFrame(cursor.fetchall())
 
 
 def fetch_expenses(user_id=None):

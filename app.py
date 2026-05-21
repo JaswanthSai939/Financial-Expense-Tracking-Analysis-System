@@ -1,20 +1,25 @@
 from datetime import date
 import os
 from pathlib import Path
+import secrets
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from auth.google_oauth import build_google_auth_url, fetch_google_user, login_or_create_google_user
 from auth.login import authenticate_user
 from auth.register import register_user
 from database.db import (
     alert_already_sent,
+    fetch_budget,
+    fetch_budgets,
     fetch_expenses,
     fetch_users,
     initialize_database,
     mysql_available,
     record_alert_sent,
+    upsert_budget,
 )
 from modules.add_expense import CATEGORIES, PAYMENT_MODES, save_expense
 from modules.analysis import calculate_summary, category_expenses, monthly_expenses, prepare_expense_frame
@@ -66,6 +71,22 @@ def get_smtp_config():
     return sender_email, app_password
 
 
+def get_google_oauth_config():
+    load_local_env()
+    client_id = os.getenv("GOOGLE_CLIENT_ID", "")
+    client_secret = os.getenv("GOOGLE_CLIENT_SECRET", "")
+    redirect_uri = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:8501")
+
+    try:
+        client_id = client_id or st.secrets.get("GOOGLE_CLIENT_ID", "")
+        client_secret = client_secret or st.secrets.get("GOOGLE_CLIENT_SECRET", "")
+        redirect_uri = st.secrets.get("GOOGLE_REDIRECT_URI", redirect_uri)
+    except Exception:
+        pass
+
+    return client_id, client_secret, redirect_uri
+
+
 def load_sample_data():
     df = pd.read_csv(DATASET_PATH)
     df = df.rename(columns={"Expense_ID": "Expense_ID"})
@@ -91,10 +112,49 @@ def init_session():
     st.session_state.setdefault("token", None)
     st.session_state.setdefault("demo_expenses", [])
     st.session_state.setdefault("auth_page", "Login")
+    st.session_state.setdefault("oauth_state", None)
+
+
+def handle_google_oauth_callback():
+    params = st.query_params
+    if "error" in params:
+        st.error(f"Google login failed: {params['error']}")
+        st.query_params.clear()
+        return
+
+    if "code" not in params:
+        return
+
+    client_id, client_secret, redirect_uri = get_google_oauth_config()
+    if not client_id or not client_secret:
+        st.error("Google OAuth is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env.")
+        st.query_params.clear()
+        return
+
+    returned_state = params.get("state")
+    expected_state = st.session_state.get("oauth_state")
+    if expected_state and returned_state != expected_state:
+        st.error("Google login state verification failed. Please try again.")
+        st.query_params.clear()
+        return
+
+    try:
+        google_user = fetch_google_user(params["code"], client_id, client_secret, redirect_uri)
+        user, token = login_or_create_google_user(google_user)
+        st.session_state["user"] = user
+        st.session_state["token"] = token
+        st.session_state["oauth_state"] = None
+        st.query_params.clear()
+        st.success("Google login successful.")
+        st.rerun()
+    except Exception as exc:
+        st.query_params.clear()
+        st.error(f"Google login failed: {exc}")
 
 
 def render_auth_pages(db_ready):
     render_header(db_ready)
+    handle_google_oauth_callback()
 
     if not db_ready:
         st.info("MySQL is not connected. You can open demo mode, but login/register requires MySQL.")
@@ -114,6 +174,16 @@ def render_auth_pages(db_ready):
 
     if st.session_state["auth_page"] == "Login":
         st.subheader("Login")
+        client_id, client_secret, redirect_uri = get_google_oauth_config()
+        if client_id and client_secret:
+            if not st.session_state["oauth_state"]:
+                st.session_state["oauth_state"] = secrets.token_urlsafe(24)
+            auth_url = build_google_auth_url(client_id, redirect_uri, st.session_state["oauth_state"])
+            st.link_button("Continue with Google", auth_url, use_container_width=True)
+            st.divider()
+        else:
+            st.info("Google login is available after adding GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env.")
+
         email = st.text_input("Email", key="login_email")
         password = st.text_input("Password", type="password", key="login_password")
         if st.button("Login", use_container_width=True):
@@ -150,7 +220,15 @@ def render_app_sidebar():
         st.header("Navigation")
         return st.radio(
             "Page",
-            ["Dashboard", "Add Expense", "Analysis", "Prediction", "Email Alerts", "Expense History"],
+            [
+                "Dashboard",
+                "Add Expense",
+                "Budget Management",
+                "Analysis",
+                "Prediction",
+                "Email Alerts",
+                "Expense History",
+            ],
             label_visibility="collapsed",
         )
 
@@ -231,6 +309,74 @@ def render_add_expense(db_ready):
             }
         )
     st.success("Expense added successfully.")
+
+
+def render_budget_management(db_ready, df):
+    st.subheader("Budget Management")
+
+    if not db_ready:
+        st.warning("Budget management requires MySQL connection.")
+        return
+
+    user = st.session_state["user"]
+    today = date.today()
+    selected_month = st.date_input(
+        "Budget Month",
+        value=date(today.year, today.month, 1),
+        help="Select any date in the month. The budget is saved for that month.",
+    )
+    month_start = date(selected_month.year, selected_month.month, 1)
+    month_label = month_start.strftime("%Y-%m")
+
+    current_budget = fetch_budget(user["id"], month_start)
+    current_budget_amount = float(current_budget["monthly_budget"]) if current_budget else 0.0
+
+    with st.form("budget_form"):
+        monthly_budget = st.number_input(
+            "Monthly Budget",
+            min_value=0.0,
+            step=500.0,
+            value=current_budget_amount,
+        )
+        submitted = st.form_submit_button("Save Budget", use_container_width=True)
+
+    if submitted:
+        upsert_budget(user["id"], monthly_budget, month_start)
+        st.success(f"Budget saved for {month_label}.")
+        current_budget_amount = monthly_budget
+
+    prepared = prepare_expense_frame(df)
+    if prepared.empty:
+        month_spent = 0.0
+    else:
+        month_spent = float(prepared.loc[prepared["Month"] == month_label, "Amount"].sum())
+
+    remaining = current_budget_amount - month_spent
+    usage = (month_spent / current_budget_amount) if current_budget_amount else 0
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Monthly Budget", format_money(current_budget_amount))
+    col2.metric("Spent This Month", format_money(month_spent))
+    col3.metric("Remaining", format_money(remaining))
+
+    if current_budget_amount <= 0:
+        st.info("Set a monthly budget to start tracking budget usage.")
+    else:
+        st.progress(min(usage, 1.0))
+        usage_percent = usage * 100
+        if usage >= 1:
+            st.error(f"Budget exceeded. You have used {usage_percent:.1f}% of your monthly budget.")
+        elif usage >= 0.8:
+            st.warning(f"Budget warning. You have used {usage_percent:.1f}% of your monthly budget.")
+        else:
+            st.success(f"Budget is under control. You have used {usage_percent:.1f}% of your monthly budget.")
+
+    st.subheader("Budget History")
+    budgets = fetch_budgets(user["id"])
+    if budgets.empty:
+        st.info("No budgets saved yet.")
+    else:
+        st.dataframe(budgets, use_container_width=True)
 
 
 def render_charts(df):
@@ -373,6 +519,8 @@ def main():
         render_charts(df)
     elif page == "Add Expense":
         render_add_expense(db_ready)
+    elif page == "Budget Management":
+        render_budget_management(db_ready, df)
     elif page == "Analysis":
         st.subheader("Monthly Expense Analysis")
         st.dataframe(monthly_expenses(df), use_container_width=True)

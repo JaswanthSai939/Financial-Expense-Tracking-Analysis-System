@@ -1,6 +1,6 @@
 # Financial Expense Tracking & Analysis System
 
-A smart web-based financial management application built with **Streamlit**, **Python**, **MySQL**, **Plotly**, **Scikit-learn**, **JWT authentication**, and **SMTP email automation**. The system helps users record daily expenses, analyze spending patterns, visualize financial data, predict future expenses, and automatically receive email alerts when their current month spending increases compared to the previous month.
+A smart web-based financial management application built with **Streamlit**, **Python**, **MySQL**, **Plotly**, **Scikit-learn**, **JWT authentication**, **Google OAuth**, and **SMTP email automation**. The system helps users record daily expenses, set monthly budgets, analyze spending patterns, visualize financial data, predict future expenses, and automatically receive email alerts when their current month spending increases compared to the previous month.
 
 ---
 
@@ -15,6 +15,7 @@ A smart web-based financial management application built with **Streamlit**, **P
 - [Screenshots](#screenshots)
 - [Dataset Usage](#dataset-usage)
 - [Pages & Features](#pages--features)
+- [Budget Management](#budget-management)
 - [Authentication Flow](#authentication-flow)
 - [Automatic Email Alert System](#automatic-email-alert-system)
 - [Machine Learning Prediction](#machine-learning-prediction)
@@ -36,6 +37,8 @@ JWT Authenticated Session
        |
 Add Daily Expenses
        |
+Set Monthly Budget
+       |
 Store Data in MySQL
        |
 Analyze Monthly Spending
@@ -52,10 +55,11 @@ Send Automatic Email Alert if Spending Increased
 1. **Register** with username, email, and password.
 2. **Login** securely using email and password.
 3. **Add expenses** with amount, category, description, payment mode, and date.
-4. **Analyze spending** using monthly and category-wise summaries.
-5. **Visualize expenses** using pie charts, bar charts, and line charts.
-6. **Predict future expenses** using Linear Regression.
-7. **Receive automatic alerts** when current month expenses are higher than previous month expenses.
+4. **Set monthly budgets** and compare actual spending against the selected month's budget.
+5. **Analyze spending** using monthly and category-wise summaries.
+6. **Visualize expenses** using pie charts, bar charts, and line charts.
+7. **Predict future expenses** using Linear Regression.
+8. **Receive automatic alerts** when current month expenses are higher than previous month expenses.
 
 Each user only sees their own expense records after login.
 
@@ -63,17 +67,37 @@ Each user only sees their own expense records after login.
 
 ## Tech Stack
 
-| Layer | Technology |
+| Category | Technology / Library | Purpose in This Project |
+| --- | --- | --- |
+| Frontend Web App | Streamlit | Builds the web interface, pages, sidebar navigation, forms, metrics, and tables |
+| Backend Language | Python | Handles authentication, database logic, analysis, prediction, and email automation |
+| Database | MySQL | Stores users, expenses, budgets, and email alert history |
+| Database Driver | mysql-connector-python | Connects Python code to the MySQL database |
+| Data Handling | Pandas | Loads CSV data, prepares expense records, groups monthly/category totals, and supports analysis |
+| Numerical Computing | NumPy | Supports numerical indexing and model input preparation for prediction |
+| Data Visualization | Plotly Express | Creates interactive pie charts, bar charts, and line charts |
+| Extra Charting Support | Matplotlib | Included for plotting support and future chart extensions |
+| Machine Learning | Scikit-learn | Uses Linear Regression to predict next month expenses |
+| Password Security | bcrypt | Hashes user passwords before storing them in MySQL |
+| Token Authentication | PyJWT | Generates JWT tokens after successful login |
+| Google Login | Google OAuth 2.0 with requests | Allows users to sign in with Google and links/creates accounts in MySQL |
+| Email Automation | SMTP / smtplib | Sends automatic overspending alerts to registered users |
+| Configuration | `.env` and Streamlit secrets | Stores SMTP, Google OAuth, JWT, and optional MySQL settings |
+| Dataset | `expenses_dataset.csv` | Provides fallback/demo data for analysis, visualization, and prediction |
+
+### Main Python Packages Used
+
+| Package | Used For |
 | --- | --- |
-| Frontend | Streamlit |
-| Backend | Python |
-| Database | MySQL |
-| Data Analysis | Pandas |
-| Visualization | Plotly |
-| Machine Learning | Scikit-learn Linear Regression |
-| Authentication | bcrypt password hashing and PyJWT |
-| Email Automation | SMTP Gmail App Password |
-| Dataset | Custom CSV expense dataset |
+| `streamlit` | Web application UI |
+| `pandas` | Dataset loading and expense analysis |
+| `plotly` | Interactive charts |
+| `scikit-learn` | Linear Regression prediction |
+| `mysql-connector-python` | MySQL database connection |
+| `bcrypt` | Password hashing |
+| `PyJWT` | JWT token generation |
+| `requests` | Google OAuth token and user profile requests |
+| `secure-smtplib` / `smtplib` | SMTP email alert sending |
 
 ---
 
@@ -91,11 +115,12 @@ Financial_Expense_Tracker/
 |-- README.md                    # Project documentation
 |
 |-- auth/
+|   |-- google_oauth.py          # Google OAuth URL, callback, and account creation helpers
 |   |-- login.py                 # User login and JWT token creation
 |   `-- register.py              # User registration and password hashing
 |
 |-- database/
-|   `-- db.py                    # MySQL connection, table creation, CRUD helpers
+|   `-- db.py                    # MySQL connection, table creation, CRUD, budget helpers
 |
 `-- modules/
     |-- add_expense.py           # Expense categories, payment modes, save helper
@@ -159,6 +184,9 @@ Create a `.env` file in the project root:
 ```text
 SMTP_EMAIL=your_sender_gmail@gmail.com
 SMTP_APP_PASSWORD=your_gmail_app_password
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8501
 ```
 
 Optional MySQL values can also be added:
@@ -182,6 +210,8 @@ MYSQL_DATABASE=expense_tracker
 Important:
 
 - Use a Gmail App Password, not your normal Gmail password.
+- For Google OAuth, create OAuth credentials in Google Cloud Console.
+- Add `http://localhost:8501` as an authorized redirect URI for local development.
 - Do not upload `.env` to GitHub.
 - `.env` is already added to `.gitignore`.
 
@@ -236,6 +266,12 @@ The Add Expense page allows users to enter amount, category, payment mode, descr
 
 ![Add Expense Page](docs/screenshots/add-expense.png)
 
+### Budget Management Page
+
+The Budget Management page lets users save a monthly budget, compare it with actual spending, view remaining balance, and see whether the budget is safe, near limit, or exceeded.
+
+![Budget Management Page](docs/screenshots/budget-management.png)
+
 ### Analysis Page
 
 The Analysis page shows monthly expense totals and category-wise expense totals in table format.
@@ -260,7 +296,7 @@ The Expense History page displays saved expenses for the logged-in user.
 
 ![Expense History Page](docs/screenshots/expense-history.png)
 
-After login, the sidebar navigation shows the main project modules: Dashboard, Add Expense, Analysis, Prediction, Email Alerts, and Expense History.
+After login, the sidebar navigation shows the main project modules: Dashboard, Add Expense, Budget Management, Analysis, Prediction, Email Alerts, and Expense History.
 
 ---
 
@@ -322,6 +358,7 @@ The first page shown before entering the system.
 
 | Field | Description |
 | --- | --- |
+| Continue with Google | Login or create account using Google OAuth |
 | Email | Registered user email |
 | Password | Secure password input |
 
@@ -331,6 +368,8 @@ On successful login:
 - JWT token is generated.
 - User session is stored in Streamlit session state.
 - Automatic expense alert check runs in the backend.
+
+If Google login is used, the app receives the Google user profile, creates or links the user in MySQL, generates a JWT token, and opens the dashboard.
 
 ### 2. Register Page
 
@@ -378,7 +417,26 @@ After saving an expense:
 - Dashboard and analysis values update.
 - Backend automatically checks whether email alert is required.
 
-### 5. Analysis
+### 5. Budget Management
+
+Allows the user to set or update a monthly budget and compare it with actual expenses for the selected month.
+
+| Section | What It Shows |
+| --- | --- |
+| Budget Month | Month selected for budget tracking |
+| Monthly Budget | Saved budget amount for the selected month |
+| Spent This Month | Total expenses recorded in that month |
+| Remaining | Budget balance after spending |
+| Progress Bar | Percentage of budget used |
+| Budget History | Previously saved monthly budgets |
+
+Budget status:
+
+- Under 80% usage: budget is under control.
+- 80% to 99% usage: warning that the budget is close to the limit.
+- 100% or more: budget exceeded.
+
+### 6. Analysis
 
 Displays tabular analysis of spending.
 
@@ -387,7 +445,7 @@ Displays tabular analysis of spending.
 | Monthly Expense Analysis | Total spending per month |
 | Category Expense Analysis | Total spending per category |
 
-### 6. Prediction
+### 7. Prediction
 
 Uses Machine Learning to predict the next month expense.
 
@@ -398,7 +456,7 @@ Uses Machine Learning to predict the next month expense.
 
 At least two months of expense data are required for prediction.
 
-### 7. Email Alerts
+### 8. Email Alerts
 
 Shows the current email alert status.
 
@@ -411,9 +469,43 @@ Shows the current email alert status.
 
 There is no manual send button. Alerts are checked and sent automatically in the backend.
 
-### 8. Expense History
+### 9. Expense History
 
 Displays all saved expenses of the logged-in user in table format.
+
+---
+
+## Budget Management
+
+The budget management feature uses the `budgets` table to store one budget per user per month.
+
+The app also includes automatic migration logic for older MySQL tables. If an older `budgets` table does not have `month_start` or `monthly_budget`, the missing columns are added automatically when the app starts.
+
+Example:
+
+```text
+User: Manikanta
+Budget Month: 2026-05
+Monthly Budget: Rs. 20,000
+Spent This Month: Rs. 17,000
+Remaining: Rs. 3,000
+```
+
+The app calculates:
+
+```text
+usage = spent_this_month / monthly_budget
+```
+
+Then it displays:
+
+| Usage | Status |
+| --- | --- |
+| Less than 80% | Budget under control |
+| 80% to 99% | Budget warning |
+| 100% or more | Budget exceeded |
+
+This helps users control monthly spending before it becomes overspending.
 
 ---
 
@@ -441,6 +533,8 @@ Authentication features:
 
 - Passwords are not stored as plain text.
 - bcrypt is used for password hashing.
+- Google OAuth can be used instead of password login.
+- Existing email accounts can be linked with Google login.
 - JWT is generated after login.
 - Session state controls access to app pages.
 - Navigation appears only after login.
@@ -534,7 +628,9 @@ Stores registered user accounts.
 | id | User ID |
 | username | User name |
 | email | Unique login email |
-| password | Hashed password |
+| password | Hashed password for local login, nullable for Google users |
+| auth_provider | Login provider such as `local` or `google` |
+| google_sub | Unique Google account subject ID for OAuth users |
 | created_at | Account creation timestamp |
 
 ### expenses
@@ -561,7 +657,7 @@ Stores monthly budget values.
 | id | Budget ID |
 | user_id | Owner user ID |
 | monthly_budget | Budget amount |
-| month_start | Budget month |
+| month_start | First date of the budget month |
 
 ### email_alerts
 
@@ -607,11 +703,13 @@ py -m compileall app.py auth database modules
 3. Add expenses for the previous month.
 4. Add expenses for the current month.
 5. Make current month spending higher than previous month spending.
-6. Confirm that the automatic email alert is sent.
-7. Open Dashboard and verify charts.
-8. Open Analysis and verify monthly/category tables.
-9. Open Prediction and verify next month expense prediction.
-10. Open Expense History and verify saved records.
+6. Open Budget Management and set a monthly budget.
+7. Confirm the app shows remaining budget and budget status.
+8. Confirm that the automatic email alert is sent when current month spending increases.
+9. Open Dashboard and verify charts.
+10. Open Analysis and verify monthly/category tables.
+11. Open Prediction and verify next month expense prediction.
+12. Open Expense History and verify saved records.
 
 ---
 
