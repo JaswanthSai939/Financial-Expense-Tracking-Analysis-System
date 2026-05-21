@@ -27,13 +27,15 @@ def expense_increased(df):
 
 
 def send_alert_email(sender_email, app_password, receiver_email, subject, body):
+    print(f"Sending alert email from {sender_email} to {receiver_email}")
+
     message = MIMEMultipart()
     message["From"] = sender_email
     message["To"] = receiver_email
     message["Subject"] = subject
     message.attach(MIMEText(body, "plain"))
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+    with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as server:
         server.starttls()
         server.login(sender_email, app_password)
         server.send_message(message)

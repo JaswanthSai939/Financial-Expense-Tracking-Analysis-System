@@ -267,8 +267,12 @@ def run_login_alert_check(db_ready, df):
         status, message = send_automatic_alert_for_user(user, df)
         if status == "sent":
             st.success(message)
+        elif status == "already_sent":
+            st.info(message)
         elif status == "missing_config":
             st.info("Automatic alert detected overspending, but SMTP is not configured.")
+        elif status == "failed":
+            st.error(message)
     except Exception as exc:
         st.warning(f"Automatic email alert could not be sent: {exc}")
 
@@ -437,6 +441,12 @@ def send_automatic_alert_for_user(user, df):
             user["email"],
             "Expense Alert Notification",
             body,
+        )
+    except OSError as exc:
+        return (
+            "failed",
+            "Automatic email alert failed because the server could not reach Gmail SMTP "
+            f"(smtp.gmail.com:587). Details: {exc}",
         )
     except Exception as exc:
         return "failed", f"Automatic email alert failed: {exc}"
