@@ -1,0 +1,501 @@
+Expense_ID,Date,Category,Amount,Payment_Mode,Description,Monthly_Budget,Savings,Expense_Status
+1,2025-03-02,Bills,4830,Net Banking,Mobile Recharge,20000,15170,Within Budget
+2,2025-02-14,Travel,3667,UPI,Train Ticket,20000,16333,Within Budget
+3,2025-04-25,Entertainment,3484,Card,Concert,20000,16516,Within Budget
+4,2025-06-09,Health,3388,Net Banking,Medical Store,20000,16612,Within Budget
+5,2025-05-21,Entertainment,2822,UPI,Gaming,20000,17178,Within Budget
+6,2025-06-23,Travel,2665,Card,Bus Tickets,20000,17335,Within Budget
+7,2025-01-24,Travel,2875,Cash,Train Ticket,20000,17125,Within Budget
+8,2025-02-15,Education,4154,Net Banking,Online Course,20000,15846,Within Budget
+9,2025-04-11,Health,2220,UPI,Medical Store,20000,17780,Within Budget
+10,2025-06-28,Travel,2118,UPI,Fuel,20000,17882,Within Budget
+11,2025-04-06,Education,551,Card,Course Fee,20000,19449,Within Budget
+12,2025-06-07,Shopping,840,Cash,Shoes,20000,19160,Within Budget
+13,2025-05-27,Education,819,Cash,Books,20000,19181,Within Budget
+14,2025-04-14,Travel,543,Net Banking,Fuel,20000,19457,Within Budget
+15,2025-06-24,Entertainment,2377,Cash,Movie Tickets,20000,17623,Within Budget
+16,2025-05-14,Shopping,667,UPI,Online Shopping,20000,19333,Within Budget
+17,2025-06-10,Bills,741,Net Banking,Electricity Bill,20000,19259,Within Budget
+18,2025-03-11,Travel,4170,Card,Bus Tickets,20000,15830,Within Budget
+19,2025-05-02,Food,202,Net Banking,Groceries,20000,19798,Within Budget
+20,2025-03-21,Shopping,4627,UPI,Accessories,20000,15373,Within Budget
+21,2025-06-26,Education,4224,Net Banking,Books,20000,15776,Within Budget
+22,2025-03-05,Entertainment,4484,Card,OTT Subscription,20000,15516,Within Budget
+23,2025-05-14,Shopping,1640,UPI,Accessories,20000,18360,Within Budget
+24,2025-05-16,Travel,3667,Card,Cab Fare,20000,16333,Within Budget
+25,2025-06-25,Travel,453,UPI,Fuel,20000,19547,Within Budget
+26,2025-03-06,Food,1741,Cash,Snacks,20000,18259,Within Budget
+27,2025-03-04,Shopping,4768,Net Banking,Accessories,20000,15232,Within Budget
+28,2025-06-08,Bills,2264,UPI,Mobile Recharge,20000,17736,Within Budget
+29,2025-03-11,Health,1931,Card,Doctor Consultation,20000,18069,Within Budget
+30,2025-02-07,Entertainment,4764,UPI,OTT Subscription,20000,15236,Within Budget
+31,2025-03-30,Education,2373,Card,Course Fee,20000,17627,Within Budget
+32,2025-06-19,Travel,2196,Net Banking,Bus Tickets,20000,17804,Within Budget
+33,2025-01-13,Education,2299,Card,Books,20000,17701,Within Budget
+34,2025-06-16,Bills,3559,UPI,Internet Bill,20000,16441,Within Budget
+35,2025-01-16,Health,4987,Net Banking,Doctor Consultation,20000,15013,Within Budget
+36,2025-06-02,Education,158,Cash,Online Course,20000,19842,Within Budget
+37,2025-05-31,Education,3224,Card,Online Course,20000,16776,Within Budget
+38,2025-04-06,Shopping,196,Card,Online Shopping,20000,19804,Within Budget
+39,2025-01-26,Entertainment,3006,Cash,OTT Subscription,20000,16994,Within Budget
+40,2025-05-07,Travel,2534,Cash,Cab Fare,20000,17466,Within Budget
+41,2025-02-20,Travel,388,UPI,Bus Tickets,20000,19612,Within Budget
+42,2025-02-07,Entertainment,2329,UPI,Movie Tickets,20000,17671,Within Budget
+43,2025-03-18,Bills,1657,Cash,Water Bill,20000,18343,Within Budget
+44,2025-05-02,Entertainment,3745,UPI,Concert,20000,16255,Within Budget
+45,2025-06-12,Health,4091,Net Banking,Health Checkup,20000,15909,Within Budget
+46,2025-03-31,Health,4757,Net Banking,Health Checkup,20000,15243,Within Budget
+47,2025-03-02,Health,1668,Card,Doctor Consultation,20000,18332,Within Budget
+48,2025-05-13,Travel,3170,Cash,Train Ticket,20000,16830,Within Budget
+49,2025-01-04,Travel,4048,Cash,Cab Fare,20000,15952,Within Budget
+50,2025-03-27,Bills,2897,Cash,Water Bill,20000,17103,Within Budget
+51,2025-06-24,Health,3482,Cash,Doctor Consultation,20000,16518,Within Budget
+52,2025-04-17,Bills,884,Net Banking,Electricity Bill,20000,19116,Within Budget
+53,2025-03-31,Entertainment,4563,Card,Concert,20000,15437,Within Budget
+54,2025-02-05,Health,3820,Cash,Health Checkup,20000,16180,Within Budget
+55,2025-04-12,Education,2688,Cash,Online Course,20000,17312,Within Budget
+56,2025-03-31,Health,4913,UPI,Gym Fee,20000,15087,Within Budget
+57,2025-02-27,Education,2366,Net Banking,Online Course,20000,17634,Within Budget
+58,2025-03-07,Entertainment,2010,Card,Movie Tickets,20000,17990,Within Budget
+59,2025-02-11,Entertainment,3450,Cash,Concert,20000,16550,Within Budget
+60,2025-04-17,Bills,3649,Net Banking,Electricity Bill,20000,16351,Within Budget
+61,2025-04-29,Food,1082,Card,Restaurant Bill,20000,18918,Within Budget
+62,2025-03-24,Education,2850,Cash,Course Fee,20000,17150,Within Budget
+63,2025-02-09,Food,1379,Cash,Lunch,20000,18621,Within Budget
+64,2025-02-15,Travel,1535,Card,Bus Tickets,20000,18465,Within Budget
+65,2025-05-23,Shopping,2987,Card,Shoes,20000,17013,Within Budget
+66,2025-06-29,Food,2611,Net Banking,Snacks,20000,17389,Within Budget
+67,2025-03-17,Bills,1687,Net Banking,Electricity Bill,20000,18313,Within Budget
+68,2025-01-14,Food,323,Card,Restaurant Bill,20000,19677,Within Budget
+69,2025-04-12,Health,3745,Card,Gym Fee,20000,16255,Within Budget
+70,2025-03-30,Shopping,1407,Net Banking,Clothes Purchase,20000,18593,Within Budget
+71,2025-04-03,Bills,2163,UPI,Mobile Recharge,20000,17837,Within Budget
+72,2025-05-08,Bills,3979,Net Banking,Mobile Recharge,20000,16021,Within Budget
+73,2025-03-08,Travel,3569,UPI,Train Ticket,20000,16431,Within Budget
+74,2025-04-08,Health,3706,Net Banking,Gym Fee,20000,16294,Within Budget
+75,2025-03-13,Education,1095,Card,Online Course,20000,18905,Within Budget
+76,2025-02-07,Health,4634,UPI,Gym Fee,20000,15366,Within Budget
+77,2025-02-12,Shopping,3173,Net Banking,Clothes Purchase,20000,16827,Within Budget
+78,2025-06-08,Health,4416,Net Banking,Medical Store,20000,15584,Within Budget
+79,2025-05-24,Shopping,1669,Card,Accessories,20000,18331,Within Budget
+80,2025-05-06,Shopping,3351,Cash,Shoes,20000,16649,Within Budget
+81,2025-01-23,Health,2581,Card,Health Checkup,20000,17419,Within Budget
+82,2025-06-01,Bills,3963,Net Banking,Mobile Recharge,20000,16037,Within Budget
+83,2025-01-21,Shopping,2324,Card,Accessories,20000,17676,Within Budget
+84,2025-04-26,Travel,2397,Card,Bus Tickets,20000,17603,Within Budget
+85,2025-01-21,Travel,1560,Net Banking,Train Ticket,20000,18440,Within Budget
+86,2025-03-25,Health,1716,Card,Gym Fee,20000,18284,Within Budget
+87,2025-01-23,Education,3121,Card,Course Fee,20000,16879,Within Budget
+88,2025-05-30,Food,4347,Net Banking,Groceries,20000,15653,Within Budget
+89,2025-06-04,Bills,4207,Card,Electricity Bill,20000,15793,Within Budget
+90,2025-05-22,Entertainment,1068,UPI,OTT Subscription,20000,18932,Within Budget
+91,2025-04-17,Shopping,749,Net Banking,Shoes,20000,19251,Within Budget
+92,2025-01-21,Food,1583,Card,Groceries,20000,18417,Within Budget
+93,2025-02-15,Shopping,1636,Cash,Accessories,20000,18364,Within Budget
+94,2025-03-10,Education,156,Card,Online Course,20000,19844,Within Budget
+95,2025-05-27,Bills,356,Cash,Internet Bill,20000,19644,Within Budget
+96,2025-06-15,Education,4899,UPI,Stationery,20000,15101,Within Budget
+97,2025-01-11,Education,2572,Cash,Course Fee,20000,17428,Within Budget
+98,2025-05-03,Health,481,Cash,Health Checkup,20000,19519,Within Budget
+99,2025-04-28,Health,3174,Cash,Health Checkup,20000,16826,Within Budget
+100,2025-06-25,Entertainment,329,Cash,Movie Tickets,20000,19671,Within Budget
+101,2025-05-30,Education,2461,Cash,Books,20000,17539,Within Budget
+102,2025-04-29,Food,4948,Cash,Groceries,20000,15052,Within Budget
+103,2025-01-05,Entertainment,1331,Cash,OTT Subscription,20000,18669,Within Budget
+104,2025-02-13,Bills,3646,UPI,Mobile Recharge,20000,16354,Within Budget
+105,2025-02-03,Shopping,3781,Cash,Online Shopping,20000,16219,Within Budget
+106,2025-03-24,Food,3361,UPI,Restaurant Bill,20000,16639,Within Budget
+107,2025-06-12,Food,389,UPI,Groceries,20000,19611,Within Budget
+108,2025-05-24,Bills,3911,Net Banking,Internet Bill,20000,16089,Within Budget
+109,2025-06-28,Bills,2045,Cash,Water Bill,20000,17955,Within Budget
+110,2025-03-02,Shopping,151,UPI,Shoes,20000,19849,Within Budget
+111,2025-05-09,Bills,1635,Card,Mobile Recharge,20000,18365,Within Budget
+112,2025-03-18,Food,4645,Net Banking,Snacks,20000,15355,Within Budget
+113,2025-04-24,Health,4028,Cash,Gym Fee,20000,15972,Within Budget
+114,2025-01-01,Bills,3171,Net Banking,Internet Bill,20000,16829,Within Budget
+115,2025-03-07,Food,312,Card,Restaurant Bill,20000,19688,Within Budget
+116,2025-06-07,Entertainment,2321,Net Banking,OTT Subscription,20000,17679,Within Budget
+117,2025-05-22,Health,1799,Cash,Gym Fee,20000,18201,Within Budget
+118,2025-01-22,Bills,4675,Net Banking,Electricity Bill,20000,15325,Within Budget
+119,2025-03-06,Entertainment,1879,Card,Concert,20000,18121,Within Budget
+120,2025-06-19,Education,3678,UPI,Course Fee,20000,16322,Within Budget
+121,2025-02-19,Food,1631,UPI,Snacks,20000,18369,Within Budget
+122,2025-05-07,Food,1245,Net Banking,Lunch,20000,18755,Within Budget
+123,2025-02-01,Food,4370,UPI,Snacks,20000,15630,Within Budget
+124,2025-05-29,Food,2452,Cash,Lunch,20000,17548,Within Budget
+125,2025-04-25,Bills,134,Net Banking,Internet Bill,20000,19866,Within Budget
+126,2025-01-02,Travel,1807,Net Banking,Train Ticket,20000,18193,Within Budget
+127,2025-04-27,Education,4610,Card,Stationery,20000,15390,Within Budget
+128,2025-04-17,Food,2371,Net Banking,Snacks,20000,17629,Within Budget
+129,2025-04-22,Bills,1489,Card,Internet Bill,20000,18511,Within Budget
+130,2025-02-25,Health,1445,Cash,Health Checkup,20000,18555,Within Budget
+131,2025-01-01,Education,368,Net Banking,Stationery,20000,19632,Within Budget
+132,2025-05-26,Shopping,4907,Card,Clothes Purchase,20000,15093,Within Budget
+133,2025-04-26,Education,3271,Net Banking,Course Fee,20000,16729,Within Budget
+134,2025-06-01,Shopping,274,Cash,Clothes Purchase,20000,19726,Within Budget
+135,2025-06-26,Education,4169,Card,Books,20000,15831,Within Budget
+136,2025-04-04,Food,2336,Net Banking,Snacks,20000,17664,Within Budget
+137,2025-01-23,Shopping,1134,Cash,Shoes,20000,18866,Within Budget
+138,2025-04-09,Shopping,3699,Net Banking,Accessories,20000,16301,Within Budget
+139,2025-05-08,Bills,2217,UPI,Electricity Bill,20000,17783,Within Budget
+140,2025-05-04,Entertainment,2430,Card,Gaming,20000,17570,Within Budget
+141,2025-01-03,Bills,3739,UPI,Internet Bill,20000,16261,Within Budget
+142,2025-04-16,Education,3781,Cash,Stationery,20000,16219,Within Budget
+143,2025-01-06,Education,2477,Cash,Stationery,20000,17523,Within Budget
+144,2025-05-30,Entertainment,2866,Cash,Concert,20000,17134,Within Budget
+145,2025-01-14,Health,3161,Card,Medical Store,20000,16839,Within Budget
+146,2025-05-12,Travel,3948,Cash,Train Ticket,20000,16052,Within Budget
+147,2025-06-03,Health,2823,UPI,Gym Fee,20000,17177,Within Budget
+148,2025-03-13,Entertainment,607,UPI,Concert,20000,19393,Within Budget
+149,2025-02-16,Bills,3014,Cash,Water Bill,20000,16986,Within Budget
+150,2025-06-09,Bills,2281,UPI,Internet Bill,20000,17719,Within Budget
+151,2025-04-05,Entertainment,2817,UPI,Movie Tickets,20000,17183,Within Budget
+152,2025-03-06,Education,1085,Cash,Online Course,20000,18915,Within Budget
+153,2025-01-10,Bills,4620,Card,Internet Bill,20000,15380,Within Budget
+154,2025-02-01,Education,3224,Cash,Stationery,20000,16776,Within Budget
+155,2025-03-08,Travel,969,Card,Fuel,20000,19031,Within Budget
+156,2025-06-02,Shopping,1540,Net Banking,Shoes,20000,18460,Within Budget
+157,2025-02-20,Bills,4069,Net Banking,Mobile Recharge,20000,15931,Within Budget
+158,2025-02-16,Health,4906,UPI,Doctor Consultation,20000,15094,Within Budget
+159,2025-01-05,Shopping,3647,Net Banking,Clothes Purchase,20000,16353,Within Budget
+160,2025-05-26,Food,2121,Card,Snacks,20000,17879,Within Budget
+161,2025-03-07,Shopping,4412,UPI,Online Shopping,20000,15588,Within Budget
+162,2025-03-12,Bills,4262,Cash,Internet Bill,20000,15738,Within Budget
+163,2025-03-17,Health,537,Cash,Gym Fee,20000,19463,Within Budget
+164,2025-02-20,Health,1740,Card,Health Checkup,20000,18260,Within Budget
+165,2025-03-01,Food,4802,Net Banking,Restaurant Bill,20000,15198,Within Budget
+166,2025-03-01,Bills,1419,Card,Water Bill,20000,18581,Within Budget
+167,2025-05-01,Food,3583,Net Banking,Lunch,20000,16417,Within Budget
+168,2025-02-05,Entertainment,3060,UPI,Movie Tickets,20000,16940,Within Budget
+169,2025-03-09,Health,2010,Card,Gym Fee,20000,17990,Within Budget
+170,2025-04-01,Travel,3097,Card,Train Ticket,20000,16903,Within Budget
+171,2025-06-21,Education,350,Net Banking,Course Fee,20000,19650,Within Budget
+172,2025-01-13,Entertainment,506,Card,Movie Tickets,20000,19494,Within Budget
+173,2025-01-28,Food,4957,Card,Lunch,20000,15043,Within Budget
+174,2025-04-14,Food,1428,UPI,Lunch,20000,18572,Within Budget
+175,2025-05-08,Travel,2410,UPI,Cab Fare,20000,17590,Within Budget
+176,2025-03-20,Entertainment,3712,Net Banking,Concert,20000,16288,Within Budget
+177,2025-03-29,Education,3212,Cash,Course Fee,20000,16788,Within Budget
+178,2025-04-12,Food,2654,Net Banking,Lunch,20000,17346,Within Budget
+179,2025-01-31,Shopping,3903,Net Banking,Online Shopping,20000,16097,Within Budget
+180,2025-01-14,Travel,1953,Card,Cab Fare,20000,18047,Within Budget
+181,2025-06-19,Bills,829,Cash,Electricity Bill,20000,19171,Within Budget
+182,2025-01-25,Education,1409,Cash,Online Course,20000,18591,Within Budget
+183,2025-03-16,Bills,2453,Cash,Internet Bill,20000,17547,Within Budget
+184,2025-04-02,Education,4034,Card,Books,20000,15966,Within Budget
+185,2025-03-03,Bills,1688,Card,Water Bill,20000,18312,Within Budget
+186,2025-05-24,Travel,2593,Net Banking,Fuel,20000,17407,Within Budget
+187,2025-03-30,Food,4996,Cash,Groceries,20000,15004,Within Budget
+188,2025-02-20,Entertainment,1617,Net Banking,Gaming,20000,18383,Within Budget
+189,2025-01-30,Food,1727,Net Banking,Restaurant Bill,20000,18273,Within Budget
+190,2025-04-04,Education,786,Cash,Books,20000,19214,Within Budget
+191,2025-05-08,Health,2258,UPI,Health Checkup,20000,17742,Within Budget
+192,2025-01-05,Bills,2671,Cash,Mobile Recharge,20000,17329,Within Budget
+193,2025-06-13,Entertainment,1072,UPI,Concert,20000,18928,Within Budget
+194,2025-06-30,Bills,937,UPI,Internet Bill,20000,19063,Within Budget
+195,2025-04-07,Health,3418,UPI,Medical Store,20000,16582,Within Budget
+196,2025-05-05,Food,2937,UPI,Lunch,20000,17063,Within Budget
+197,2025-01-18,Food,3882,Cash,Snacks,20000,16118,Within Budget
+198,2025-02-21,Entertainment,314,Card,Gaming,20000,19686,Within Budget
+199,2025-02-19,Education,1808,Net Banking,Course Fee,20000,18192,Within Budget
+200,2025-04-12,Travel,4854,Cash,Cab Fare,20000,15146,Within Budget
+201,2025-04-17,Travel,3557,Card,Fuel,20000,16443,Within Budget
+202,2025-06-24,Education,626,Net Banking,Online Course,20000,19374,Within Budget
+203,2025-03-12,Bills,2153,Card,Electricity Bill,20000,17847,Within Budget
+204,2025-05-30,Health,2732,Net Banking,Health Checkup,20000,17268,Within Budget
+205,2025-01-10,Travel,1979,Net Banking,Cab Fare,20000,18021,Within Budget
+206,2025-05-30,Education,4466,Card,Books,20000,15534,Within Budget
+207,2025-05-15,Education,3892,Card,Course Fee,20000,16108,Within Budget
+208,2025-04-11,Shopping,3738,UPI,Shoes,20000,16262,Within Budget
+209,2025-06-09,Bills,4800,Card,Electricity Bill,20000,15200,Within Budget
+210,2025-05-10,Entertainment,2190,Cash,OTT Subscription,20000,17810,Within Budget
+211,2025-05-31,Education,4515,Card,Course Fee,20000,15485,Within Budget
+212,2025-01-23,Food,774,Net Banking,Restaurant Bill,20000,19226,Within Budget
+213,2025-01-28,Travel,4051,Net Banking,Bus Tickets,20000,15949,Within Budget
+214,2025-03-07,Shopping,2421,Card,Accessories,20000,17579,Within Budget
+215,2025-06-22,Bills,1638,Cash,Electricity Bill,20000,18362,Within Budget
+216,2025-06-10,Entertainment,3718,Cash,OTT Subscription,20000,16282,Within Budget
+217,2025-03-09,Travel,3258,Cash,Fuel,20000,16742,Within Budget
+218,2025-01-03,Education,1807,Net Banking,Stationery,20000,18193,Within Budget
+219,2025-04-08,Travel,3228,Card,Fuel,20000,16772,Within Budget
+220,2025-03-06,Entertainment,370,Net Banking,Movie Tickets,20000,19630,Within Budget
+221,2025-04-21,Travel,3427,UPI,Fuel,20000,16573,Within Budget
+222,2025-01-16,Education,1371,Net Banking,Books,20000,18629,Within Budget
+223,2025-05-19,Health,1752,Cash,Gym Fee,20000,18248,Within Budget
+224,2025-05-17,Health,1487,Card,Medical Store,20000,18513,Within Budget
+225,2025-06-10,Travel,3615,Net Banking,Train Ticket,20000,16385,Within Budget
+226,2025-04-30,Health,2081,UPI,Doctor Consultation,20000,17919,Within Budget
+227,2025-02-26,Entertainment,3417,Net Banking,Gaming,20000,16583,Within Budget
+228,2025-04-11,Entertainment,1403,Card,OTT Subscription,20000,18597,Within Budget
+229,2025-05-06,Shopping,3819,Cash,Shoes,20000,16181,Within Budget
+230,2025-04-12,Shopping,1702,UPI,Clothes Purchase,20000,18298,Within Budget
+231,2025-03-14,Shopping,3097,Card,Shoes,20000,16903,Within Budget
+232,2025-04-07,Health,1688,Net Banking,Health Checkup,20000,18312,Within Budget
+233,2025-04-01,Health,3548,Cash,Gym Fee,20000,16452,Within Budget
+234,2025-05-31,Health,3833,Net Banking,Health Checkup,20000,16167,Within Budget
+235,2025-05-10,Shopping,3792,Cash,Accessories,20000,16208,Within Budget
+236,2025-04-08,Food,4062,Card,Snacks,20000,15938,Within Budget
+237,2025-04-20,Entertainment,2479,UPI,OTT Subscription,20000,17521,Within Budget
+238,2025-04-05,Entertainment,3210,UPI,Gaming,20000,16790,Within Budget
+239,2025-06-18,Entertainment,970,Card,Concert,20000,19030,Within Budget
+240,2025-05-15,Travel,3518,UPI,Cab Fare,20000,16482,Within Budget
+241,2025-05-29,Travel,1084,UPI,Train Ticket,20000,18916,Within Budget
+242,2025-03-29,Education,4547,Cash,Course Fee,20000,15453,Within Budget
+243,2025-06-04,Food,2889,UPI,Restaurant Bill,20000,17111,Within Budget
+244,2025-02-22,Education,2538,UPI,Books,20000,17462,Within Budget
+245,2025-06-19,Entertainment,239,Cash,Gaming,20000,19761,Within Budget
+246,2025-01-20,Health,3647,Net Banking,Medical Store,20000,16353,Within Budget
+247,2025-04-05,Food,3230,UPI,Restaurant Bill,20000,16770,Within Budget
+248,2025-04-28,Travel,4936,UPI,Cab Fare,20000,15064,Within Budget
+249,2025-04-23,Food,1533,Cash,Lunch,20000,18467,Within Budget
+250,2025-01-22,Health,4290,Cash,Health Checkup,20000,15710,Within Budget
+251,2025-02-20,Bills,1323,Net Banking,Water Bill,20000,18677,Within Budget
+252,2025-03-14,Bills,1505,Card,Water Bill,20000,18495,Within Budget
+253,2025-03-23,Bills,241,Net Banking,Water Bill,20000,19759,Within Budget
+254,2025-05-12,Food,3703,Card,Restaurant Bill,20000,16297,Within Budget
+255,2025-02-17,Entertainment,2748,UPI,Gaming,20000,17252,Within Budget
+256,2025-06-15,Health,3077,Card,Gym Fee,20000,16923,Within Budget
+257,2025-05-28,Health,4727,Card,Health Checkup,20000,15273,Within Budget
+258,2025-06-27,Entertainment,4528,UPI,Movie Tickets,20000,15472,Within Budget
+259,2025-02-04,Food,4607,UPI,Snacks,20000,15393,Within Budget
+260,2025-04-28,Education,2704,UPI,Stationery,20000,17296,Within Budget
+261,2025-06-27,Education,289,Card,Stationery,20000,19711,Within Budget
+262,2025-03-07,Food,296,UPI,Snacks,20000,19704,Within Budget
+263,2025-01-17,Travel,4662,UPI,Fuel,20000,15338,Within Budget
+264,2025-01-02,Entertainment,4247,Card,OTT Subscription,20000,15753,Within Budget
+265,2025-01-12,Shopping,399,UPI,Accessories,20000,19601,Within Budget
+266,2025-06-30,Shopping,1542,Cash,Clothes Purchase,20000,18458,Within Budget
+267,2025-01-21,Health,1473,Net Banking,Medical Store,20000,18527,Within Budget
+268,2025-04-06,Bills,2216,Card,Water Bill,20000,17784,Within Budget
+269,2025-04-03,Travel,1144,UPI,Bus Tickets,20000,18856,Within Budget
+270,2025-02-08,Bills,1021,UPI,Mobile Recharge,20000,18979,Within Budget
+271,2025-05-07,Travel,3177,Cash,Cab Fare,20000,16823,Within Budget
+272,2025-04-09,Health,4704,Cash,Medical Store,20000,15296,Within Budget
+273,2025-05-03,Food,2546,Net Banking,Lunch,20000,17454,Within Budget
+274,2025-03-24,Travel,104,Cash,Train Ticket,20000,19896,Within Budget
+275,2025-02-11,Health,1675,Card,Medical Store,20000,18325,Within Budget
+276,2025-04-14,Entertainment,1677,Net Banking,Gaming,20000,18323,Within Budget
+277,2025-03-01,Entertainment,882,Cash,Concert,20000,19118,Within Budget
+278,2025-03-17,Education,3731,UPI,Course Fee,20000,16269,Within Budget
+279,2025-02-26,Health,4685,Card,Medical Store,20000,15315,Within Budget
+280,2025-02-05,Entertainment,2551,Card,Concert,20000,17449,Within Budget
+281,2025-05-13,Entertainment,4862,UPI,Concert,20000,15138,Within Budget
+282,2025-03-04,Education,4310,Card,Books,20000,15690,Within Budget
+283,2025-06-21,Entertainment,1330,Cash,Movie Tickets,20000,18670,Within Budget
+284,2025-03-22,Health,3435,Net Banking,Health Checkup,20000,16565,Within Budget
+285,2025-03-18,Education,2716,Card,Online Course,20000,17284,Within Budget
+286,2025-02-26,Health,1001,UPI,Gym Fee,20000,18999,Within Budget
+287,2025-04-07,Shopping,3210,Cash,Shoes,20000,16790,Within Budget
+288,2025-05-12,Food,706,Card,Lunch,20000,19294,Within Budget
+289,2025-04-29,Entertainment,4906,Net Banking,Gaming,20000,15094,Within Budget
+290,2025-06-09,Food,4109,UPI,Restaurant Bill,20000,15891,Within Budget
+291,2025-06-21,Travel,2697,UPI,Bus Tickets,20000,17303,Within Budget
+292,2025-06-11,Food,3147,UPI,Lunch,20000,16853,Within Budget
+293,2025-02-21,Bills,3161,Card,Water Bill,20000,16839,Within Budget
+294,2025-03-21,Travel,2598,Card,Cab Fare,20000,17402,Within Budget
+295,2025-05-06,Shopping,2538,Cash,Online Shopping,20000,17462,Within Budget
+296,2025-01-08,Education,1938,Cash,Course Fee,20000,18062,Within Budget
+297,2025-06-01,Education,1944,UPI,Books,20000,18056,Within Budget
+298,2025-02-01,Food,3041,Net Banking,Restaurant Bill,20000,16959,Within Budget
+299,2025-05-02,Health,2837,Card,Doctor Consultation,20000,17163,Within Budget
+300,2025-02-01,Bills,3547,Card,Internet Bill,20000,16453,Within Budget
+301,2025-03-17,Health,723,Cash,Gym Fee,20000,19277,Within Budget
+302,2025-01-16,Education,4396,Cash,Books,20000,15604,Within Budget
+303,2025-05-21,Bills,3082,Cash,Mobile Recharge,20000,16918,Within Budget
+304,2025-01-23,Food,4324,UPI,Groceries,20000,15676,Within Budget
+305,2025-04-04,Food,1634,Cash,Snacks,20000,18366,Within Budget
+306,2025-04-08,Shopping,738,UPI,Accessories,20000,19262,Within Budget
+307,2025-01-13,Travel,3251,UPI,Fuel,20000,16749,Within Budget
+308,2025-05-13,Shopping,1594,UPI,Shoes,20000,18406,Within Budget
+309,2025-03-05,Food,1424,Cash,Lunch,20000,18576,Within Budget
+310,2025-02-01,Health,4425,Cash,Medical Store,20000,15575,Within Budget
+311,2025-01-08,Food,4269,UPI,Lunch,20000,15731,Within Budget
+312,2025-03-30,Travel,3731,Net Banking,Bus Tickets,20000,16269,Within Budget
+313,2025-06-11,Entertainment,113,Card,Concert,20000,19887,Within Budget
+314,2025-02-24,Health,4925,Card,Doctor Consultation,20000,15075,Within Budget
+315,2025-05-23,Entertainment,1573,Cash,Concert,20000,18427,Within Budget
+316,2025-05-01,Entertainment,1690,Card,Concert,20000,18310,Within Budget
+317,2025-06-02,Education,880,UPI,Course Fee,20000,19120,Within Budget
+318,2025-01-17,Food,396,Net Banking,Snacks,20000,19604,Within Budget
+319,2025-06-06,Education,2774,Net Banking,Stationery,20000,17226,Within Budget
+320,2025-01-25,Travel,464,Card,Cab Fare,20000,19536,Within Budget
+321,2025-01-18,Entertainment,2110,Card,OTT Subscription,20000,17890,Within Budget
+322,2025-02-27,Food,2886,Net Banking,Snacks,20000,17114,Within Budget
+323,2025-03-17,Travel,3386,Cash,Cab Fare,20000,16614,Within Budget
+324,2025-06-13,Education,4138,Cash,Stationery,20000,15862,Within Budget
+325,2025-01-19,Shopping,2045,UPI,Clothes Purchase,20000,17955,Within Budget
+326,2025-05-21,Shopping,3981,Net Banking,Clothes Purchase,20000,16019,Within Budget
+327,2025-04-21,Food,1839,Cash,Snacks,20000,18161,Within Budget
+328,2025-04-03,Entertainment,2445,Net Banking,Movie Tickets,20000,17555,Within Budget
+329,2025-02-02,Entertainment,200,UPI,Gaming,20000,19800,Within Budget
+330,2025-03-25,Shopping,298,Net Banking,Online Shopping,20000,19702,Within Budget
+331,2025-02-11,Bills,2559,Net Banking,Water Bill,20000,17441,Within Budget
+332,2025-01-19,Education,1076,Card,Course Fee,20000,18924,Within Budget
+333,2025-03-17,Health,2971,Cash,Health Checkup,20000,17029,Within Budget
+334,2025-02-22,Shopping,4632,Cash,Shoes,20000,15368,Within Budget
+335,2025-01-09,Travel,3599,Net Banking,Bus Tickets,20000,16401,Within Budget
+336,2025-03-05,Food,4299,UPI,Groceries,20000,15701,Within Budget
+337,2025-04-24,Food,4151,Cash,Snacks,20000,15849,Within Budget
+338,2025-05-23,Food,692,Card,Restaurant Bill,20000,19308,Within Budget
+339,2025-01-30,Bills,694,Card,Water Bill,20000,19306,Within Budget
+340,2025-03-11,Shopping,772,Card,Clothes Purchase,20000,19228,Within Budget
+341,2025-03-10,Entertainment,3584,Cash,OTT Subscription,20000,16416,Within Budget
+342,2025-05-03,Bills,3044,Cash,Water Bill,20000,16956,Within Budget
+343,2025-04-14,Shopping,4461,Net Banking,Accessories,20000,15539,Within Budget
+344,2025-04-04,Entertainment,4602,UPI,Gaming,20000,15398,Within Budget
+345,2025-01-21,Health,1722,Net Banking,Medical Store,20000,18278,Within Budget
+346,2025-02-24,Shopping,2886,Card,Shoes,20000,17114,Within Budget
+347,2025-04-19,Entertainment,2095,Cash,OTT Subscription,20000,17905,Within Budget
+348,2025-03-22,Education,508,UPI,Online Course,20000,19492,Within Budget
+349,2025-05-20,Travel,1451,Card,Cab Fare,20000,18549,Within Budget
+350,2025-05-11,Entertainment,2664,Card,Gaming,20000,17336,Within Budget
+351,2025-03-24,Bills,3339,UPI,Electricity Bill,20000,16661,Within Budget
+352,2025-02-28,Entertainment,954,UPI,OTT Subscription,20000,19046,Within Budget
+353,2025-03-31,Education,687,UPI,Stationery,20000,19313,Within Budget
+354,2025-05-12,Health,2907,Net Banking,Gym Fee,20000,17093,Within Budget
+355,2025-04-23,Health,822,Card,Health Checkup,20000,19178,Within Budget
+356,2025-01-12,Shopping,4659,Card,Shoes,20000,15341,Within Budget
+357,2025-01-25,Food,4987,UPI,Restaurant Bill,20000,15013,Within Budget
+358,2025-05-07,Health,2571,Card,Gym Fee,20000,17429,Within Budget
+359,2025-05-18,Entertainment,763,UPI,Concert,20000,19237,Within Budget
+360,2025-06-04,Entertainment,3561,Net Banking,Movie Tickets,20000,16439,Within Budget
+361,2025-01-14,Travel,1938,Cash,Bus Tickets,20000,18062,Within Budget
+362,2025-03-23,Travel,4341,UPI,Cab Fare,20000,15659,Within Budget
+363,2025-04-22,Bills,4802,UPI,Electricity Bill,20000,15198,Within Budget
+364,2025-01-02,Travel,100,Net Banking,Fuel,20000,19900,Within Budget
+365,2025-02-18,Travel,4229,Card,Cab Fare,20000,15771,Within Budget
+366,2025-01-02,Education,1905,UPI,Course Fee,20000,18095,Within Budget
+367,2025-06-21,Shopping,4432,Net Banking,Online Shopping,20000,15568,Within Budget
+368,2025-06-09,Food,594,Net Banking,Groceries,20000,19406,Within Budget
+369,2025-04-26,Shopping,3503,Cash,Accessories,20000,16497,Within Budget
+370,2025-02-01,Food,2953,Net Banking,Lunch,20000,17047,Within Budget
+371,2025-01-10,Education,3538,UPI,Course Fee,20000,16462,Within Budget
+372,2025-05-18,Travel,4442,Card,Cab Fare,20000,15558,Within Budget
+373,2025-03-10,Education,4037,Net Banking,Books,20000,15963,Within Budget
+374,2025-05-12,Health,516,Card,Gym Fee,20000,19484,Within Budget
+375,2025-06-23,Bills,1510,Card,Internet Bill,20000,18490,Within Budget
+376,2025-02-24,Travel,1210,Net Banking,Cab Fare,20000,18790,Within Budget
+377,2025-03-15,Food,477,UPI,Restaurant Bill,20000,19523,Within Budget
+378,2025-01-08,Travel,250,Card,Fuel,20000,19750,Within Budget
+379,2025-03-29,Travel,4417,Card,Train Ticket,20000,15583,Within Budget
+380,2025-02-01,Education,2377,Net Banking,Course Fee,20000,17623,Within Budget
+381,2025-01-27,Education,2068,UPI,Stationery,20000,17932,Within Budget
+382,2025-02-18,Education,1484,Net Banking,Stationery,20000,18516,Within Budget
+383,2025-05-31,Entertainment,456,Card,Gaming,20000,19544,Within Budget
+384,2025-05-16,Travel,868,UPI,Fuel,20000,19132,Within Budget
+385,2025-04-22,Health,4104,Cash,Health Checkup,20000,15896,Within Budget
+386,2025-05-02,Bills,3655,Card,Mobile Recharge,20000,16345,Within Budget
+387,2025-02-20,Shopping,3663,Net Banking,Shoes,20000,16337,Within Budget
+388,2025-05-26,Food,2296,Cash,Groceries,20000,17704,Within Budget
+389,2025-05-06,Bills,138,Card,Water Bill,20000,19862,Within Budget
+390,2025-05-09,Bills,2266,Net Banking,Electricity Bill,20000,17734,Within Budget
+391,2025-05-05,Food,3952,UPI,Snacks,20000,16048,Within Budget
+392,2025-02-26,Food,468,Net Banking,Snacks,20000,19532,Within Budget
+393,2025-06-04,Shopping,3124,UPI,Clothes Purchase,20000,16876,Within Budget
+394,2025-04-09,Education,148,Card,Books,20000,19852,Within Budget
+395,2025-02-21,Health,376,Cash,Health Checkup,20000,19624,Within Budget
+396,2025-02-23,Health,1241,Cash,Medical Store,20000,18759,Within Budget
+397,2025-04-23,Education,1843,Card,Online Course,20000,18157,Within Budget
+398,2025-05-25,Bills,4249,UPI,Internet Bill,20000,15751,Within Budget
+399,2025-06-21,Health,2130,Card,Health Checkup,20000,17870,Within Budget
+400,2025-04-14,Travel,4290,UPI,Cab Fare,20000,15710,Within Budget
+401,2025-04-17,Entertainment,1687,Net Banking,Concert,20000,18313,Within Budget
+402,2025-01-15,Health,2686,Card,Gym Fee,20000,17314,Within Budget
+403,2025-03-27,Travel,1011,Net Banking,Bus Tickets,20000,18989,Within Budget
+404,2025-04-11,Education,2201,Card,Books,20000,17799,Within Budget
+405,2025-05-25,Health,4126,Card,Health Checkup,20000,15874,Within Budget
+406,2025-03-19,Travel,3161,Net Banking,Bus Tickets,20000,16839,Within Budget
+407,2025-01-31,Education,4350,Net Banking,Online Course,20000,15650,Within Budget
+408,2025-05-01,Health,349,UPI,Medical Store,20000,19651,Within Budget
+409,2025-02-23,Food,2857,Net Banking,Lunch,20000,17143,Within Budget
+410,2025-01-20,Food,4505,Cash,Restaurant Bill,20000,15495,Within Budget
+411,2025-03-20,Health,739,UPI,Doctor Consultation,20000,19261,Within Budget
+412,2025-02-25,Education,2071,Card,Course Fee,20000,17929,Within Budget
+413,2025-05-31,Travel,4013,UPI,Fuel,20000,15987,Within Budget
+414,2025-05-17,Food,1097,Net Banking,Lunch,20000,18903,Within Budget
+415,2025-05-16,Health,1661,Cash,Health Checkup,20000,18339,Within Budget
+416,2025-01-17,Food,1667,Card,Snacks,20000,18333,Within Budget
+417,2025-03-16,Education,3350,Card,Online Course,20000,16650,Within Budget
+418,2025-04-01,Shopping,233,UPI,Shoes,20000,19767,Within Budget
+419,2025-05-30,Entertainment,3196,Card,Movie Tickets,20000,16804,Within Budget
+420,2025-06-19,Entertainment,4098,Net Banking,Concert,20000,15902,Within Budget
+421,2025-01-30,Travel,840,Net Banking,Fuel,20000,19160,Within Budget
+422,2025-04-29,Health,4831,UPI,Gym Fee,20000,15169,Within Budget
+423,2025-06-10,Bills,2591,UPI,Mobile Recharge,20000,17409,Within Budget
+424,2025-06-20,Entertainment,4849,Cash,Concert,20000,15151,Within Budget
+425,2025-03-24,Travel,2547,Card,Train Ticket,20000,17453,Within Budget
+426,2025-01-12,Education,4303,Cash,Course Fee,20000,15697,Within Budget
+427,2025-01-28,Education,1094,Net Banking,Course Fee,20000,18906,Within Budget
+428,2025-03-29,Shopping,206,Net Banking,Online Shopping,20000,19794,Within Budget
+429,2025-02-24,Food,1352,UPI,Groceries,20000,18648,Within Budget
+430,2025-04-10,Health,1942,Cash,Health Checkup,20000,18058,Within Budget
+431,2025-06-02,Food,2636,Net Banking,Snacks,20000,17364,Within Budget
+432,2025-05-27,Food,4688,Net Banking,Restaurant Bill,20000,15312,Within Budget
+433,2025-03-31,Education,354,Card,Books,20000,19646,Within Budget
+434,2025-03-16,Travel,4622,Card,Train Ticket,20000,15378,Within Budget
+435,2025-03-24,Education,255,Net Banking,Books,20000,19745,Within Budget
+436,2025-03-14,Travel,4738,Net Banking,Bus Tickets,20000,15262,Within Budget
+437,2025-05-08,Shopping,4174,Cash,Shoes,20000,15826,Within Budget
+438,2025-02-06,Entertainment,1559,Card,OTT Subscription,20000,18441,Within Budget
+439,2025-03-21,Health,4949,Cash,Gym Fee,20000,15051,Within Budget
+440,2025-02-10,Education,356,UPI,Books,20000,19644,Within Budget
+441,2025-02-05,Bills,2177,Card,Mobile Recharge,20000,17823,Within Budget
+442,2025-05-13,Travel,4878,Net Banking,Cab Fare,20000,15122,Within Budget
+443,2025-03-25,Entertainment,2995,Card,Movie Tickets,20000,17005,Within Budget
+444,2025-03-06,Food,1880,Cash,Lunch,20000,18120,Within Budget
+445,2025-03-01,Education,1844,UPI,Online Course,20000,18156,Within Budget
+446,2025-03-04,Food,934,Cash,Groceries,20000,19066,Within Budget
+447,2025-01-17,Food,2404,Card,Snacks,20000,17596,Within Budget
+448,2025-02-12,Shopping,2248,Card,Online Shopping,20000,17752,Within Budget
+449,2025-03-02,Shopping,1625,Net Banking,Online Shopping,20000,18375,Within Budget
+450,2025-03-31,Health,1567,Cash,Gym Fee,20000,18433,Within Budget
+451,2025-01-16,Food,733,Card,Groceries,20000,19267,Within Budget
+452,2025-06-18,Travel,4391,Cash,Fuel,20000,15609,Within Budget
+453,2025-04-15,Food,2124,UPI,Restaurant Bill,20000,17876,Within Budget
+454,2025-04-15,Education,2911,Cash,Books,20000,17089,Within Budget
+455,2025-03-16,Food,1130,Cash,Groceries,20000,18870,Within Budget
+456,2025-01-01,Food,2102,UPI,Groceries,20000,17898,Within Budget
+457,2025-01-04,Food,238,Cash,Snacks,20000,19762,Within Budget
+458,2025-05-22,Health,469,Cash,Gym Fee,20000,19531,Within Budget
+459,2025-04-18,Education,3851,Card,Online Course,20000,16149,Within Budget
+460,2025-01-06,Travel,4625,UPI,Train Ticket,20000,15375,Within Budget
+461,2025-04-17,Bills,1979,Cash,Electricity Bill,20000,18021,Within Budget
+462,2025-05-22,Food,1962,UPI,Snacks,20000,18038,Within Budget
+463,2025-03-24,Food,3260,Cash,Restaurant Bill,20000,16740,Within Budget
+464,2025-01-18,Entertainment,1526,Cash,OTT Subscription,20000,18474,Within Budget
+465,2025-04-12,Food,3544,UPI,Snacks,20000,16456,Within Budget
+466,2025-03-22,Entertainment,2912,Net Banking,Concert,20000,17088,Within Budget
+467,2025-04-22,Education,902,Net Banking,Stationery,20000,19098,Within Budget
+468,2025-05-18,Travel,4814,Net Banking,Train Ticket,20000,15186,Within Budget
+469,2025-04-01,Travel,3422,UPI,Cab Fare,20000,16578,Within Budget
+470,2025-03-23,Education,1746,Cash,Course Fee,20000,18254,Within Budget
+471,2025-04-25,Entertainment,1559,UPI,OTT Subscription,20000,18441,Within Budget
+472,2025-06-29,Entertainment,4433,UPI,OTT Subscription,20000,15567,Within Budget
+473,2025-06-28,Health,2007,Cash,Doctor Consultation,20000,17993,Within Budget
+474,2025-04-03,Education,2031,Card,Books,20000,17969,Within Budget
+475,2025-02-02,Travel,777,UPI,Fuel,20000,19223,Within Budget
+476,2025-01-18,Bills,3393,Card,Internet Bill,20000,16607,Within Budget
+477,2025-05-01,Bills,2627,Card,Mobile Recharge,20000,17373,Within Budget
+478,2025-03-31,Health,707,Card,Health Checkup,20000,19293,Within Budget
+479,2025-05-04,Shopping,1080,Card,Clothes Purchase,20000,18920,Within Budget
+480,2025-01-10,Food,2442,UPI,Snacks,20000,17558,Within Budget
+481,2025-05-20,Travel,3904,UPI,Bus Tickets,20000,16096,Within Budget
+482,2025-03-16,Health,2081,Cash,Health Checkup,20000,17919,Within Budget
+483,2025-05-31,Food,898,Card,Lunch,20000,19102,Within Budget
+484,2025-04-13,Shopping,3799,Cash,Accessories,20000,16201,Within Budget
+485,2025-03-25,Entertainment,3383,Card,Movie Tickets,20000,16617,Within Budget
+486,2025-06-30,Food,1975,Net Banking,Lunch,20000,18025,Within Budget
+487,2025-03-13,Entertainment,3557,UPI,OTT Subscription,20000,16443,Within Budget
+488,2025-06-11,Bills,249,Net Banking,Electricity Bill,20000,19751,Within Budget
+489,2025-04-13,Bills,260,Net Banking,Mobile Recharge,20000,19740,Within Budget
+490,2025-01-18,Shopping,2777,Cash,Clothes Purchase,20000,17223,Within Budget
+491,2025-01-19,Shopping,2709,Net Banking,Clothes Purchase,20000,17291,Within Budget
+492,2025-04-18,Entertainment,1050,Card,Concert,20000,18950,Within Budget
+493,2025-02-21,Shopping,270,UPI,Clothes Purchase,20000,19730,Within Budget
+494,2025-06-26,Shopping,1465,Card,Accessories,20000,18535,Within Budget
+495,2025-06-18,Bills,1753,Card,Internet Bill,20000,18247,Within Budget
+496,2025-02-21,Food,2376,Card,Lunch,20000,17624,Within Budget
+497,2025-01-19,Entertainment,1770,UPI,Gaming,20000,18230,Within Budget
+498,2025-05-24,Entertainment,1409,Net Banking,OTT Subscription,20000,18591,Within Budget
+499,2025-03-13,Bills,3487,Card,Internet Bill,20000,16513,Within Budget
+500,2025-02-26,Entertainment,692,Cash,Gaming,20000,19308,Within Budget
