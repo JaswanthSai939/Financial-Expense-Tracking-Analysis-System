@@ -179,14 +179,14 @@ def render_auth_pages(db_ready):
             if not st.session_state["oauth_state"]:
                 st.session_state["oauth_state"] = secrets.token_urlsafe(24)
             auth_url = build_google_auth_url(client_id, redirect_uri, st.session_state["oauth_state"])
-            st.link_button("Continue with Google", auth_url, use_container_width=True)
+            st.link_button("Continue with Google", auth_url, width="stretch")
             st.divider()
         else:
             st.info("Google login is available after adding GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env.")
 
         email = st.text_input("Email", key="login_email")
         password = st.text_input("Password", type="password", key="login_password")
-        if st.button("Login", use_container_width=True):
+        if st.button("Login", width="stretch"):
             user, token, message = authenticate_user(email, password)
             if user:
                 st.session_state["user"] = user
@@ -200,7 +200,7 @@ def render_auth_pages(db_ready):
         username = st.text_input("Username", key="register_username")
         email = st.text_input("Email", key="register_email")
         password = st.text_input("Password", type="password", key="register_password")
-        if st.button("Create Account", use_container_width=True):
+        if st.button("Create Account", width="stretch"):
             ok, message = register_user(username, email, password)
             if ok:
                 st.success(message)
@@ -282,7 +282,7 @@ def render_add_expense(db_ready):
         payment_mode = col3.selectbox("Payment Mode", PAYMENT_MODES)
         description = st.text_input("Description")
         expense_date = st.date_input("Expense Date", value=date.today())
-        submitted = st.form_submit_button("Add Expense", use_container_width=True)
+        submitted = st.form_submit_button("Add Expense", width="stretch")
 
     if not submitted:
         return
@@ -296,6 +296,8 @@ def render_add_expense(db_ready):
             st.success(message)
         elif status == "missing_config":
             st.warning("Expense added, but SMTP is not configured for automatic email alerts.")
+        elif status == "failed":
+            st.warning(message)
     else:
         st.session_state["demo_expenses"].append(
             {
@@ -338,7 +340,7 @@ def render_budget_management(db_ready, df):
             step=500.0,
             value=current_budget_amount,
         )
-        submitted = st.form_submit_button("Save Budget", use_container_width=True)
+        submitted = st.form_submit_button("Save Budget", width="stretch")
 
     if submitted:
         upsert_budget(user["id"], monthly_budget, month_start)
@@ -376,7 +378,7 @@ def render_budget_management(db_ready, df):
     if budgets.empty:
         st.info("No budgets saved yet.")
     else:
-        st.dataframe(budgets, use_container_width=True)
+        st.dataframe(budgets, width="stretch")
 
 
 def render_charts(df):
@@ -385,10 +387,10 @@ def render_charts(df):
         return
 
     left, right = st.columns(2)
-    left.plotly_chart(category_pie_chart(df), use_container_width=True)
-    right.plotly_chart(category_bar_chart(df), use_container_width=True)
-    st.plotly_chart(monthly_line_chart(df), use_container_width=True)
-    st.plotly_chart(daily_trend_chart(df), use_container_width=True)
+    left.plotly_chart(category_pie_chart(df), width="stretch")
+    right.plotly_chart(category_bar_chart(df), width="stretch")
+    st.plotly_chart(monthly_line_chart(df), width="stretch")
+    st.plotly_chart(daily_trend_chart(df), width="stretch")
 
 
 def render_prediction(df):
@@ -406,7 +408,7 @@ def render_prediction(df):
     forecast = pd.DataFrame([{"Month": forecast_month, "Amount": prediction, "Type": "Predicted"}])
     st.plotly_chart(
         px.bar(pd.concat([chart_data[["Month", "Amount", "Type"]], forecast]), x="Month", y="Amount", color="Type"),
-        use_container_width=True,
+        width="stretch",
     )
 
 
@@ -428,13 +430,17 @@ def send_automatic_alert_for_user(user, df):
         summary["previous_month"],
         summary["current_month"],
     )
-    send_alert_email(
-        sender_email,
-        app_password,
-        user["email"],
-        "Expense Alert Notification",
-        body,
-    )
+    try:
+        send_alert_email(
+            sender_email,
+            app_password,
+            user["email"],
+            "Expense Alert Notification",
+            body,
+        )
+    except Exception as exc:
+        return "failed", f"Automatic email alert failed: {exc}"
+
     record_alert_sent(
         user["id"],
         current_month,
@@ -463,14 +469,17 @@ def send_automatic_alerts_to_all_users():
             summary["previous_month"],
             summary["current_month"],
         )
-        send_alert_email(
-            sender_email,
-            app_password,
-            user["email"],
-            "Expense Alert Notification",
-            body,
-        )
-        sent.append(user["email"])
+        try:
+            send_alert_email(
+                sender_email,
+                app_password,
+                user["email"],
+                "Expense Alert Notification",
+                body,
+            )
+            sent.append(user["email"])
+        except Exception as exc:
+            skipped.append(f"{user['email']}: email failed - {exc}")
 
     return sent, skipped
 
@@ -495,6 +504,30 @@ def render_alerts(df):
         st.info("SMTP is configured. Alerts will be sent automatically when spending increases.")
     else:
         st.warning("SMTP is not configured. Set SMTP_EMAIL and SMTP_APP_PASSWORD before sending real emails.")
+
+    user = st.session_state.get("user")
+    if not user:
+        return
+
+    st.caption(f"Alert receiver email: {user['email']}")
+
+    if not increased:
+        return
+
+    try:
+        status, message = send_automatic_alert_for_user(user, df)
+        if status == "sent":
+            st.success(message)
+        elif status == "already_sent":
+            st.info(message)
+        elif status == "missing_config":
+            st.warning(message)
+        elif status == "failed":
+            st.error(message)
+        else:
+            st.info(message)
+    except Exception as exc:
+        st.error(f"Automatic email alert failed: {exc}")
 
 
 
@@ -523,16 +556,16 @@ def main():
         render_budget_management(db_ready, df)
     elif page == "Analysis":
         st.subheader("Monthly Expense Analysis")
-        st.dataframe(monthly_expenses(df), use_container_width=True)
+        st.dataframe(monthly_expenses(df), width="stretch")
         st.subheader("Category Expense Analysis")
-        st.dataframe(category_expenses(df), use_container_width=True)
+        st.dataframe(category_expenses(df), width="stretch")
     elif page == "Prediction":
         render_prediction(df)
     elif page == "Email Alerts":
         render_alerts(df)
     else:
         st.subheader("Expense History")
-        st.dataframe(df.sort_values("Date", ascending=False), use_container_width=True)
+        st.dataframe(df.sort_values("Date", ascending=False), width="stretch")
 
 
 if __name__ == "__main__":
