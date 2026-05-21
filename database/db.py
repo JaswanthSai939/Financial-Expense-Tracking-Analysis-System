@@ -1,5 +1,6 @@
 import os
 from contextlib import contextmanager
+from urllib.parse import urlparse
 
 import mysql.connector
 import pandas as pd
@@ -8,13 +9,19 @@ from dotenv import load_dotenv
 # Load Environment Variables
 load_dotenv()
 
+# Railway MySQL Public URL
+MYSQL_URL = os.getenv("MYSQL_PUBLIC_URL")
+
+# Parse MySQL URL
+parsed_url = urlparse(MYSQL_URL)
+
 # Database Configuration
 DB_CONFIG = {
-    "host": os.getenv("MYSQLHOST", "localhost"),
-    "user": os.getenv("MYSQLUSER", "root"),
-    "password": os.getenv("MYSQLPASSWORD", ""),
-    "database": os.getenv("MYSQLDATABASE", "expense_tracker"),
-    "port": int(os.getenv("MYSQLPORT", 3306)),
+    "host": parsed_url.hostname,
+    "user": parsed_url.username,
+    "password": parsed_url.password,
+    "database": parsed_url.path.lstrip("/"),
+    "port": parsed_url.port,
 }
 
 
@@ -33,12 +40,10 @@ def mysql_cursor(dictionary=False):
 
     try:
         yield cursor
-
         connection.commit()
 
     finally:
         cursor.close()
-
         connection.close()
 
 
@@ -49,7 +54,8 @@ def mysql_available():
         with get_connection() as connection:
             return connection.is_connected()
 
-    except mysql.connector.Error:
+    except mysql.connector.Error as e:
+        print("MySQL Connection Error:", e)
         return False
 
 
