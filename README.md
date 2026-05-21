@@ -115,14 +115,17 @@ Financial_Expense_Tracker/
 |-- README.md                    # Project documentation
 |
 |-- auth/
+|   |-- __init__.py
 |   |-- google_oauth.py          # Google OAuth URL, callback, and account creation helpers
 |   |-- login.py                 # User login and JWT token creation
 |   `-- register.py              # User registration and password hashing
 |
 |-- database/
+|   |-- __init__.py
 |   `-- db.py                    # MySQL connection, table creation, CRUD, budget helpers
 |
 `-- modules/
+    |-- __init__.py
     |-- add_expense.py           # Expense categories, payment modes, save helper
     |-- analysis.py              # Monthly/category analysis and summary metrics
     |-- email_alert.py           # SMTP email message and sending logic
