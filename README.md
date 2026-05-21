@@ -228,6 +228,7 @@ The register page allows a new user to create an account using username, email, 
 The dashboard gives the user a quick overview of total expenses, average expense, highest spending category, monthly change, and category-wise visual charts.
 
 ![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/dashboard_1.png)
 
 ### Add Expense Page
 
