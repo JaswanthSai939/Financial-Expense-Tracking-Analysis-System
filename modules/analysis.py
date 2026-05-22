@@ -1,15 +1,31 @@
 import pandas as pd
 
 
+EXPENSE_COLUMNS = [
+    "Expense_ID",
+    "User_ID",
+    "Amount",
+    "Category",
+    "Description",
+    "Date",
+    "Payment_Mode",
+    "Month",
+]
+
+
 def prepare_expense_frame(df):
     if df.empty:
-        return df
+        return pd.DataFrame(columns=EXPENSE_COLUMNS)
 
     prepared = df.copy()
+    for column in EXPENSE_COLUMNS:
+        if column != "Month" and column not in prepared.columns:
+            prepared[column] = None
+
     prepared["Amount"] = pd.to_numeric(prepared["Amount"], errors="coerce").fillna(0)
     prepared["Date"] = pd.to_datetime(prepared["Date"])
     prepared["Month"] = prepared["Date"].dt.to_period("M").astype(str)
-    return prepared
+    return prepared[EXPENSE_COLUMNS]
 
 
 def calculate_summary(df):
