@@ -565,6 +565,19 @@ def render_alerts(df):
         st.error(f"Automatic email alert failed: {exc}")
 
 
+def render_expense_history(df):
+    st.subheader("Expense History")
+    if df.empty:
+        st.info("No expense history available. Add your first expense from the Add Expense page.")
+        return
+
+    if "Date" not in df.columns:
+        st.info("No expense history available. Add your first expense from the Add Expense page.")
+        return
+
+    st.dataframe(df.sort_values("Date", ascending=False), width="stretch")
+
+
 
 def main():
     init_session()
@@ -599,8 +612,7 @@ def main():
     elif page == "Email Alerts":
         render_alerts(df)
     else:
-        st.subheader("Expense History")
-        st.dataframe(df.sort_values("Date", ascending=False), width="stretch")
+        render_expense_history(df)
 
 
 if __name__ == "__main__":

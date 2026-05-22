@@ -458,7 +458,17 @@ def fetch_expenses(user_id=None):
 
         cursor.execute(query, params)
 
-        return pd.DataFrame(cursor.fetchall())
+        rows = cursor.fetchall()
+        columns = [
+            "Expense_ID",
+            "User_ID",
+            "Amount",
+            "Category",
+            "Description",
+            "Date",
+            "Payment_Mode",
+        ]
+        return pd.DataFrame(rows, columns=columns)
 
 
 # =========================
