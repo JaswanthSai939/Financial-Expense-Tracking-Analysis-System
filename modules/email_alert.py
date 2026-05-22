@@ -7,6 +7,10 @@ import requests
 from modules.analysis import calculate_summary
 
 
+class EmailDeliveryError(Exception):
+    pass
+
+
 def build_alert_message(username, previous_month, current_month):
     increase = current_month - previous_month
     return f"""Hello {username},
@@ -54,7 +58,12 @@ def send_alert_email(
             },
             timeout=20,
         )
-        response.raise_for_status()
+        if not response.ok:
+            try:
+                error_detail = response.json()
+            except ValueError:
+                error_detail = response.text
+            raise EmailDeliveryError(f"Resend API error {response.status_code}: {error_detail}")
         return
 
     print(f"Sending alert email with Gmail SMTP from {sender_email} to {receiver_email}")

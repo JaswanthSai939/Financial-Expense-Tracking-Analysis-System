@@ -23,7 +23,7 @@ from database.db import (
 )
 from modules.add_expense import CATEGORIES, PAYMENT_MODES, save_expense
 from modules.analysis import calculate_summary, category_expenses, monthly_expenses, prepare_expense_frame
-from modules.email_alert import build_alert_message, expense_increased, send_alert_email
+from modules.email_alert import EmailDeliveryError, build_alert_message, expense_increased, send_alert_email
 from modules.prediction import predict_next_month_expense
 from modules.visualization import category_bar_chart, category_pie_chart, daily_trend_chart, monthly_line_chart
 
@@ -459,6 +459,8 @@ def send_automatic_alert_for_user(user, df):
             resend_api_key,
             resend_from_email,
         )
+    except EmailDeliveryError as exc:
+        return "failed", f"Automatic email alert failed: {exc}"
     except OSError as exc:
         return (
             "failed",
