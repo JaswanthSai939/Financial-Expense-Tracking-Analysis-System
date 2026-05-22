@@ -12,6 +12,7 @@ A smart web-based financial management application built with **Streamlit**, **P
 - [Setup & Installation](#setup--installation)
 - [Environment Variables](#environment-variables)
 - [Running the App](#running-the-app)
+- [Deployment](#deployment)
 - [Screenshots](#screenshots)
 - [Dataset Usage](#dataset-usage)
 - [Pages & Features](#pages--features)
@@ -84,6 +85,22 @@ Each user only sees their own expense records after login.
 | Email Automation | SMTP / smtplib | Sends automatic overspending alerts to registered users |
 | Configuration | `.env` and Streamlit secrets | Stores SMTP, Google OAuth, JWT, and optional MySQL settings |
 | Dataset | `expenses_dataset.csv` | Provides fallback/demo data for analysis, visualization, and prediction |
+
+### Frontend and Backend for Deployment
+
+This project does not need separate frontend and backend deployments.
+
+| Part | What to Use |
+| --- | --- |
+| Frontend | Streamlit UI in `app.py` |
+| Backend | Python logic inside `auth/`, `database/`, and `modules/` |
+| Deployment Style | One Streamlit web service |
+| Database | Separate MySQL service |
+
+For Railway, deploy this as:
+
+- **One Railway Web Service** for the Streamlit app
+- **One Railway MySQL Service** for the database
 
 ### Main Python Packages Used
 
@@ -239,6 +256,80 @@ Open the app in your browser:
 ```text
 http://localhost:8501
 ```
+
+---
+
+## Deployment
+
+### Railway Deployment
+
+Use Railway as a single Streamlit web service plus a MySQL database service.
+
+The included `Procfile` tells Railway how to start the app:
+
+```text
+web: streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
+```
+
+### Required Railway Services
+
+| Service | Purpose |
+| --- | --- |
+| Web Service | Runs the Streamlit application |
+| MySQL Service | Stores users, expenses, budgets, and email alerts |
+
+### Required Railway Environment Variables
+
+Set these in the Railway Web Service variables:
+
+```text
+MYSQL_PUBLIC_URL=your_railway_mysql_public_url
+SMTP_EMAIL=your_sender_gmail@gmail.com
+SMTP_APP_PASSWORD=your_gmail_app_password
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=https://your-railway-app-url.up.railway.app
+JWT_SECRET_KEY=use-a-long-secure-secret-key-at-least-32-characters
+```
+
+Railway may also provide separate MySQL variables such as:
+
+```text
+MYSQLHOST
+MYSQLUSER
+MYSQLPASSWORD
+MYSQLDATABASE
+MYSQLPORT
+```
+
+The app supports both formats:
+
+- `MYSQL_PUBLIC_URL`
+- separate Railway MySQL variables
+
+### Google OAuth Redirect URI for Deployment
+
+In Google Cloud Console, add your deployed Railway URL as an authorized redirect URI:
+
+```text
+https://your-railway-app-url.up.railway.app
+```
+
+This value must match:
+
+```text
+GOOGLE_REDIRECT_URI
+```
+
+### Common Deployment Error
+
+If you see:
+
+```text
+TypeError: a bytes-like object is required, not 'str'
+```
+
+the problem is usually MySQL URL parsing. The app now safely parses Railway MySQL URLs using `MYSQL_PUBLIC_URL`, `MYSQL_URL`, or `DATABASE_URL`.
 
 ---
 

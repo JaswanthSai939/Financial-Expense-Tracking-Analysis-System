@@ -1,6 +1,6 @@
 import os
 from contextlib import contextmanager
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import mysql.connector
 import pandas as pd
@@ -12,32 +12,43 @@ load_dotenv()
 # =========================
 # DATABASE CONFIGURATION
 # =========================
-MYSQL_URL = os.getenv("MYSQL_PUBLIC_URL", "")
 
-if isinstance(MYSQL_URL, bytes):
-    MYSQL_URL = MYSQL_URL.decode("utf-8")
 
-if MYSQL_URL:
+def get_env_value(*names, default=""):
+    for name in names:
+        value = os.getenv(name)
+        if value:
+            if isinstance(value, bytes):
+                value = value.decode("utf-8")
+            return str(value).strip()
+    return default
 
-    parsed_url = urlparse(str(MYSQL_URL))
 
-    DB_CONFIG = {
-        "host": parsed_url.hostname,
-        "user": parsed_url.username,
-        "password": parsed_url.password,
-        "database": parsed_url.path.replace("/", ""),
-        "port": parsed_url.port,
+def build_db_config():
+    mysql_url = get_env_value("MYSQL_PUBLIC_URL", "MYSQL_URL", "DATABASE_URL")
+
+    if mysql_url:
+        parsed_url = urlparse(mysql_url)
+        database_name = unquote((parsed_url.path or "").lstrip("/"))
+
+        return {
+            "host": parsed_url.hostname,
+            "user": unquote(parsed_url.username or ""),
+            "password": unquote(parsed_url.password or ""),
+            "database": database_name or get_env_value("MYSQLDATABASE", "MYSQL_DATABASE", default="expense_tracker"),
+            "port": parsed_url.port or int(get_env_value("MYSQLPORT", "MYSQL_PORT", default="3306")),
+        }
+
+    return {
+        "host": get_env_value("MYSQLHOST", "MYSQL_HOST", default="localhost"),
+        "user": get_env_value("MYSQLUSER", "MYSQL_USER", default="root"),
+        "password": get_env_value("MYSQLPASSWORD", "MYSQL_PASSWORD", default=""),
+        "database": get_env_value("MYSQLDATABASE", "MYSQL_DATABASE", default="expense_tracker"),
+        "port": int(get_env_value("MYSQLPORT", "MYSQL_PORT", default="3306")),
     }
 
-else:
 
-    DB_CONFIG = {
-        "host": os.getenv("MYSQLHOST", "localhost"),
-        "user": os.getenv("MYSQLUSER", "root"),
-        "password": os.getenv("MYSQLPASSWORD", ""),
-        "database": os.getenv("MYSQLDATABASE", "expense_tracker"),
-        "port": int(os.getenv("MYSQLPORT", 3306)),
-    }
+DB_CONFIG = build_db_config()
 
 
 # =========================

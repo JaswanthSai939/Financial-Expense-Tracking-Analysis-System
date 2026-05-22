@@ -71,6 +71,20 @@ def get_smtp_config():
     return sender_email, app_password
 
 
+def get_resend_config():
+    load_local_env()
+    api_key = os.getenv("RESEND_API_KEY", "")
+    from_email = os.getenv("RESEND_FROM_EMAIL", "")
+
+    try:
+        api_key = api_key or st.secrets.get("RESEND_API_KEY", "")
+        from_email = from_email or st.secrets.get("RESEND_FROM_EMAIL", "")
+    except Exception:
+        pass
+
+    return api_key, from_email
+
+
 def get_google_oauth_config():
     load_local_env()
     client_id = os.getenv("GOOGLE_CLIENT_ID", "")
@@ -422,8 +436,9 @@ def send_automatic_alert_for_user(user, df):
         return "clear", "Expenses are under control. No alert email is required."
 
     sender_email, app_password = get_smtp_config()
-    if not sender_email or not app_password:
-        return "missing_config", "SMTP email credentials are not configured."
+    resend_api_key, resend_from_email = get_resend_config()
+    if not resend_api_key and (not sender_email or not app_password):
+        return "missing_config", "Email credentials are not configured."
 
     current_month = monthly_expenses(df).iloc[-1]["Month"]
     if alert_already_sent(user["id"], current_month):
@@ -441,6 +456,8 @@ def send_automatic_alert_for_user(user, df):
             user["email"],
             "Expense Alert Notification",
             body,
+            resend_api_key,
+            resend_from_email,
         )
     except OSError as exc:
         return (
@@ -462,8 +479,9 @@ def send_automatic_alert_for_user(user, df):
 
 def send_automatic_alerts_to_all_users():
     sender_email, app_password = get_smtp_config()
-    if not sender_email or not app_password:
-        return [], ["SMTP email credentials are not configured."]
+    resend_api_key, resend_from_email = get_resend_config()
+    if not resend_api_key and (not sender_email or not app_password):
+        return [], ["Email credentials are not configured."]
 
     sent = []
     skipped = []
@@ -486,6 +504,8 @@ def send_automatic_alerts_to_all_users():
                 user["email"],
                 "Expense Alert Notification",
                 body,
+                resend_api_key,
+                resend_from_email,
             )
             sent.append(user["email"])
         except Exception as exc:
@@ -510,10 +530,13 @@ def render_alerts(df):
         st.success("Expenses are under control based on the latest monthly comparison.")
 
     sender_email, app_password = get_smtp_config()
-    if sender_email and app_password:
+    resend_api_key, resend_from_email = get_resend_config()
+    if resend_api_key:
+        st.info("Resend email API is configured. Alerts will be sent automatically when spending increases.")
+    elif sender_email and app_password:
         st.info("SMTP is configured. Alerts will be sent automatically when spending increases.")
     else:
-        st.warning("SMTP is not configured. Set SMTP_EMAIL and SMTP_APP_PASSWORD before sending real emails.")
+        st.warning("Email is not configured. Set RESEND_API_KEY and RESEND_FROM_EMAIL, or set SMTP_EMAIL and SMTP_APP_PASSWORD.")
 
     user = st.session_state.get("user")
     if not user:

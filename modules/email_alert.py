@@ -2,6 +2,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import requests
+
 from modules.analysis import calculate_summary
 
 
@@ -26,8 +28,36 @@ def expense_increased(df):
     return summary["current_month"] > summary["previous_month"] > 0, summary
 
 
-def send_alert_email(sender_email, app_password, receiver_email, subject, body):
-    print(f"Sending alert email from {sender_email} to {receiver_email}")
+def send_alert_email(
+    sender_email,
+    app_password,
+    receiver_email,
+    subject,
+    body,
+    resend_api_key="",
+    resend_from_email="",
+):
+    if resend_api_key:
+        from_email = resend_from_email or sender_email
+        print(f"Sending alert email with Resend from {from_email} to {receiver_email}")
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {resend_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": from_email,
+                "to": [receiver_email],
+                "subject": subject,
+                "text": body,
+            },
+            timeout=20,
+        )
+        response.raise_for_status()
+        return
+
+    print(f"Sending alert email with Gmail SMTP from {sender_email} to {receiver_email}")
 
     message = MIMEMultipart()
     message["From"] = sender_email
