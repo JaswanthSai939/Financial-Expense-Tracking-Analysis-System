@@ -441,8 +441,12 @@ def send_automatic_alert_for_user(user, df):
         return "missing_config", "Email credentials are not configured."
 
     current_month = monthly_expenses(df).iloc[-1]["Month"]
-    if alert_already_sent(user["id"], current_month):
-        return "already_sent", "Alert email was already sent for this monthly comparison."
+    alert_type = "decrease"
+    if summary["current_month"] > summary["previous_month"]:
+        alert_type = "increase"
+
+    if alert_already_sent(user["id"], current_month, alert_type):
+        return "already_sent", f"{alert_type.title()} email was already sent for this monthly comparison."
 
     body = build_alert_message(
         user["username"],
@@ -450,7 +454,7 @@ def send_automatic_alert_for_user(user, df):
         summary["current_month"],
     )
     subject = "Expense Savings Notification"
-    if summary["current_month"] > summary["previous_month"]:
+    if alert_type == "increase":
         subject = "Expense Alert Notification"
 
     try:
@@ -477,6 +481,7 @@ def send_automatic_alert_for_user(user, df):
     record_alert_sent(
         user["id"],
         current_month,
+        alert_type,
         summary["previous_month"],
         summary["current_month"],
     )
@@ -503,8 +508,12 @@ def send_automatic_alerts_to_all_users():
             summary["previous_month"],
             summary["current_month"],
         )
-        subject = "Expense Savings Notification"
+        alert_type = "decrease"
         if summary["current_month"] > summary["previous_month"]:
+            alert_type = "increase"
+
+        subject = "Expense Savings Notification"
+        if alert_type == "increase":
             subject = "Expense Alert Notification"
 
         try:

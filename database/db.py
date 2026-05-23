@@ -192,18 +192,48 @@ def initialize_database():
 
                 alert_month VARCHAR(7) NOT NULL,
 
+                alert_type VARCHAR(20) DEFAULT 'increase',
+
                 previous_amount DECIMAL(10,2) NOT NULL,
 
                 current_amount DECIMAL(10,2) NOT NULL,
 
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-                UNIQUE KEY unique_user_alert_month(user_id, alert_month),
+                UNIQUE KEY unique_user_alert_month_type(user_id, alert_month, alert_type),
 
                 FOREIGN KEY(user_id)
                 REFERENCES users(id)
                 ON DELETE CASCADE
             )
+            """
+        )
+
+        ensure_email_alert_schema(cursor)
+
+
+def ensure_email_alert_schema(cursor):
+
+    cursor.execute("SHOW COLUMNS FROM email_alerts LIKE 'alert_type'")
+    if cursor.fetchone() is None:
+        cursor.execute(
+            """
+            ALTER TABLE email_alerts
+            ADD COLUMN alert_type VARCHAR(20) DEFAULT 'increase'
+            AFTER alert_month
+            """
+        )
+
+    cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month'")
+    if cursor.fetchone() is not None:
+        cursor.execute("ALTER TABLE email_alerts DROP INDEX unique_user_alert_month")
+
+    cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month_type'")
+    if cursor.fetchone() is None:
+        cursor.execute(
+            """
+            ALTER TABLE email_alerts
+            ADD UNIQUE KEY unique_user_alert_month_type(user_id, alert_month, alert_type)
             """
         )
 
@@ -260,7 +290,7 @@ def fetch_users():
 # ALERT FUNCTIONS
 # =========================
 
-def alert_already_sent(user_id, alert_month):
+def alert_already_sent(user_id, alert_month, alert_type):
 
     with mysql_cursor(dictionary=True) as cursor:
 
@@ -272,8 +302,9 @@ def alert_already_sent(user_id, alert_month):
 
             WHERE user_id = %s
             AND alert_month = %s
+            AND alert_type = %s
             """,
-            (user_id, alert_month),
+            (user_id, alert_month, alert_type),
         )
 
         return cursor.fetchone() is not None
@@ -282,6 +313,7 @@ def alert_already_sent(user_id, alert_month):
 def record_alert_sent(
     user_id,
     alert_month,
+    alert_type,
     previous_amount,
     current_amount
 ):
@@ -294,15 +326,17 @@ def record_alert_sent(
             (
                 user_id,
                 alert_month,
+                alert_type,
                 previous_amount,
                 current_amount
             )
 
-            VALUES(%s, %s, %s, %s)
+            VALUES(%s, %s, %s, %s, %s)
             """,
             (
                 user_id,
                 alert_month,
+                alert_type,
                 previous_amount,
                 current_amount,
             ),
