@@ -12,19 +12,42 @@ class EmailDeliveryError(Exception):
 
 
 def build_alert_message(username, previous_month, current_month):
-    increase = current_month - previous_month
-    return f"""Hello {username},
+    difference = current_month - previous_month
+
+    if difference > 0:
+        return f"""Hello {username},
 
 Your current month expense has increased compared to the previous month.
 
 Previous Month Expense: Rs. {previous_month:.2f}
 Current Month Expense: Rs. {current_month:.2f}
-Increase Amount: Rs. {increase:.2f}
+Increase Amount: Rs. {difference:.2f}
 
 Please reduce unnecessary spending and manage your expenses carefully.
 
 Financial Expense Tracking System
 """
+
+    saved_amount = abs(difference)
+    return f"""Hello {username},
+
+Good news. Your current month expense is lower than the previous month.
+
+Previous Month Expense: Rs. {previous_month:.2f}
+Current Month Expense: Rs. {current_month:.2f}
+Amount Saved: Rs. {saved_amount:.2f}
+
+Keep maintaining this spending habit and continue saving.
+
+Financial Expense Tracking System
+"""
+
+
+def expense_changed(df):
+    summary = calculate_summary(df)
+    has_previous_month = summary["previous_month"] > 0
+    changed = has_previous_month and summary["current_month"] != summary["previous_month"]
+    return changed, summary
 
 
 def expense_increased(df):

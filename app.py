@@ -23,7 +23,7 @@ from database.db import (
 )
 from modules.add_expense import CATEGORIES, PAYMENT_MODES, save_expense
 from modules.analysis import calculate_summary, category_expenses, monthly_expenses, prepare_expense_frame
-from modules.email_alert import EmailDeliveryError, build_alert_message, expense_increased, send_alert_email
+from modules.email_alert import EmailDeliveryError, build_alert_message, expense_changed, send_alert_email
 from modules.prediction import predict_next_month_expense
 from modules.visualization import category_bar_chart, category_pie_chart, daily_trend_chart, monthly_line_chart
 
@@ -431,9 +431,9 @@ def render_prediction(df):
 
 
 def send_automatic_alert_for_user(user, df):
-    increased, summary = expense_increased(df)
-    if not increased:
-        return "clear", "Expenses are under control. No alert email is required."
+    changed, summary = expense_changed(df)
+    if not changed:
+        return "clear", "No monthly expense change found. No email alert is required."
 
     sender_email, app_password = get_smtp_config()
     resend_api_key, resend_from_email = get_resend_config()
@@ -449,12 +449,16 @@ def send_automatic_alert_for_user(user, df):
         summary["previous_month"],
         summary["current_month"],
     )
+    subject = "Expense Savings Notification"
+    if summary["current_month"] > summary["previous_month"]:
+        subject = "Expense Alert Notification"
+
     try:
         send_alert_email(
             sender_email,
             app_password,
             user["email"],
-            "Expense Alert Notification",
+            subject,
             body,
             resend_api_key,
             resend_from_email,
@@ -476,7 +480,7 @@ def send_automatic_alert_for_user(user, df):
         summary["previous_month"],
         summary["current_month"],
     )
-    return "sent", f"Alert email sent automatically to {user['email']}."
+    return "sent", f"Monthly comparison email sent automatically to {user['email']}."
 
 
 def send_automatic_alerts_to_all_users():
@@ -489,9 +493,9 @@ def send_automatic_alerts_to_all_users():
     skipped = []
     for user in fetch_users():
         user_df = prepare_expense_frame(fetch_expenses(user["id"]))
-        increased, summary = expense_increased(user_df)
-        if not increased:
-            skipped.append(f"{user['email']}: expenses are under control")
+        changed, summary = expense_changed(user_df)
+        if not changed:
+            skipped.append(f"{user['email']}: no monthly expense change")
             continue
 
         body = build_alert_message(
@@ -499,12 +503,16 @@ def send_automatic_alerts_to_all_users():
             summary["previous_month"],
             summary["current_month"],
         )
+        subject = "Expense Savings Notification"
+        if summary["current_month"] > summary["previous_month"]:
+            subject = "Expense Alert Notification"
+
         try:
             send_alert_email(
                 sender_email,
                 app_password,
                 user["email"],
-                "Expense Alert Notification",
+                subject,
                 body,
                 resend_api_key,
                 resend_from_email,
@@ -518,7 +526,9 @@ def send_automatic_alerts_to_all_users():
 
 def render_alerts(df):
     st.subheader("Automatic Email Alert")
-    increased, summary = expense_increased(df)
+    changed, summary = expense_changed(df)
+    increased = summary["current_month"] > summary["previous_month"] > 0
+    decreased = summary["previous_month"] > summary["current_month"]
     previous_month = summary["previous_month"]
     current_month = summary["current_month"]
 
@@ -528,15 +538,17 @@ def render_alerts(df):
 
     if increased:
         st.error("Current month expenses increased compared to the previous month.")
+    elif decreased:
+        st.success(f"Current month expenses decreased. Amount saved: {format_money(previous_month - current_month)}.")
     else:
-        st.success("Expenses are under control based on the latest monthly comparison.")
+        st.info("No monthly expense change found for email alert.")
 
     sender_email, app_password = get_smtp_config()
     resend_api_key, resend_from_email = get_resend_config()
     if resend_api_key:
-        st.info("Resend email API is configured. Alerts will be sent automatically when spending increases.")
+        st.info("Resend email API is configured. Monthly comparison emails will be sent automatically when spending changes.")
     elif sender_email and app_password:
-        st.info("SMTP is configured. Alerts will be sent automatically when spending increases.")
+        st.info("SMTP is configured. Monthly comparison emails will be sent automatically when spending changes.")
     else:
         st.warning("Email is not configured. Set RESEND_API_KEY and RESEND_FROM_EMAIL, or set SMTP_EMAIL and SMTP_APP_PASSWORD.")
 
@@ -546,7 +558,7 @@ def render_alerts(df):
 
     st.caption(f"Alert receiver email: {user['email']}")
 
-    if not increased:
+    if not changed:
         return
 
     try:
