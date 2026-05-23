@@ -228,6 +228,11 @@ def ensure_email_alert_schema(cursor):
     cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month'")
     old_unique_indexes = cursor.fetchall()
     if old_unique_indexes:
+        cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'idx_email_alerts_user_id'")
+        user_id_indexes = cursor.fetchall()
+        if not user_id_indexes:
+            cursor.execute("ALTER TABLE email_alerts ADD INDEX idx_email_alerts_user_id(user_id)")
+
         cursor.execute("ALTER TABLE email_alerts DROP INDEX unique_user_alert_month")
 
     cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month_type'")
