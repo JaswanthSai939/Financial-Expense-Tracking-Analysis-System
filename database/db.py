@@ -69,7 +69,7 @@ def mysql_cursor(dictionary=False):
 
     connection = get_connection()
 
-    cursor = connection.cursor(dictionary=dictionary)
+    cursor = connection.cursor(dictionary=dictionary, buffered=True)
 
     try:
         yield cursor
@@ -215,7 +215,8 @@ def initialize_database():
 def ensure_email_alert_schema(cursor):
 
     cursor.execute("SHOW COLUMNS FROM email_alerts LIKE 'alert_type'")
-    if cursor.fetchone() is None:
+    alert_type_columns = cursor.fetchall()
+    if not alert_type_columns:
         cursor.execute(
             """
             ALTER TABLE email_alerts
@@ -225,11 +226,13 @@ def ensure_email_alert_schema(cursor):
         )
 
     cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month'")
-    if cursor.fetchone() is not None:
+    old_unique_indexes = cursor.fetchall()
+    if old_unique_indexes:
         cursor.execute("ALTER TABLE email_alerts DROP INDEX unique_user_alert_month")
 
     cursor.execute("SHOW INDEX FROM email_alerts WHERE Key_name = 'unique_user_alert_month_type'")
-    if cursor.fetchone() is None:
+    new_unique_indexes = cursor.fetchall()
+    if not new_unique_indexes:
         cursor.execute(
             """
             ALTER TABLE email_alerts
